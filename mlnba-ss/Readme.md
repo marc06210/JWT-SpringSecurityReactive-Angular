@@ -6,7 +6,7 @@ cd /Users/guerrini/tools/mongodb-osx-x86_64-3.4.9/bin
 
 to launch the frontend
 
-cd /Users/guerrini/Documents/_perso/basket/mlnba/mlnba-v2
+cd ../mlnba-cs
 ng serve --proxy-config proxy.conf.json
 
 
