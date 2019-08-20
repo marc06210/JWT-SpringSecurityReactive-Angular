@@ -1,0 +1,51 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+
+
+<button mat-raised-button [matMenuTriggerFor]="menu">Accueil</button>
+  <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/home"> 
+        <mat-icon>home</mat-icon>
+        <span>Accueil</span>
+      </button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+
+  <button mat-raised-button [matMenuTriggerFor]="users">Administration</button>
+  <mat-menu #users="matMenu">
+    <button routerLink="/users" mat-menu-item>Membres</button>
+    <button routerLink="/teams" mat-menu-item>Equipes</button>
+    <button routerLink="/photos" mat-menu-item>Photos</button>
+  </mat-menu>
+
+  <button mat-raised-button [matMenuTriggerFor]="auth">Connexion</button>
+  <mat-menu #auth="matMenu">
+    <button routerLink="/id" mat-menu-item>Se connecter</button>
+    <button (click)="logout()" mat-menu-item>Logout</button>
+  </mat-menu>
+
+  <router-outlet></router-outlet>
+<br/>
+
+<!--
+<button mat-button>Flat button</button>
+<button mat-raised-button>Raised button</button>
+<button mat-fab><mat-icon>check</mat-icon></button>
+<button mat-mini-fab><mat-icon>check</mat-icon></button>
+
+<h1 class="mat-display-1">Jackdaws love my big sphinx of quartz.</h1>
+<h2 class="mat-h2">The quick brown fox jumps over the lazy dog.</h2>
+
+<h1>This header is unstyled</h1>
+ 
+<section class="mat-typography">
+  <h1>This header will be styled</h1>
+</section>
+
+<mat-icon>home</mat-icon>
+
+-->

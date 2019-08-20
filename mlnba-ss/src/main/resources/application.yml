@@ -1,0 +1,18 @@
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG
+    
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost/mlnba
+        username: mlnba
+        password: mlnba
+        driver-class-name: org.postgresql.Driver
+        
+    jpa:
+        show-sql: true
+        properties:
+            hibernate:
+                temp:
+                    use_jdbc_metadata_defaults: false # to suppress an annoying exception that occurs when JPA (Hibernate) tries to verify PostgreSQL CLOB feature.

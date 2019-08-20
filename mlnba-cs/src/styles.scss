@@ -1,0 +1,11 @@
+// 1 - add Angular Material theming utilities
+@import '~@angular/material/theming';
+// 2 - Add TECCSE's helper library
+$font-path: '../node_modules/@teccse/angular-material-themes/fonts';
+@import "~@teccse/angular-material-themes/index";
+// 3 - Add core setup for Angular Material
+@include mat-core($afklm-typography);
+// 4 - Add theming to Angular Material components
+@include angular-material-theme($afklm-theme);
+// 5 - Add TECCSE's CSS utilities for colors
+@include teccse-colors($afklm-theme);

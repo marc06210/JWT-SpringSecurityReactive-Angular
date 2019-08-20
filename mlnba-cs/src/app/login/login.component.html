@@ -1,0 +1,40 @@
+
+<form role="form" (submit)="login()">
+  <div class="form-group">
+    <label for="username">Nom utilisateur:</label>
+    <input type="text" class="form-control" id="username"  name="username" [(ngModel)]="credentials.username"/>
+  </div>
+	<div class="form-group">
+		<label for="password">Password:</label> <input type="password"
+			class="form-control" id="password" name="password" [(ngModel)]="credentials.password"/>
+	</div>
+	<button type="submit" class="btn btn-primary">Valider</button>
+</form>
+
+
+<div class="alert alert-danger" [hidden]="!error">
+    {{error}}<br/>
+    <button (click)="loginRequest()" class="btn btn-primary">Please try again</button>
+</div>
+<div [hidden]="error">
+  <div [hidden]="user">
+    Please connect
+  </div>
+</div>
+<div [hidden]="!user">
+    Welcome<br/>
+    {{user?.username}}<br/>
+    {{user?.lastname}}<br/>
+    {{user?.firstname}}<br/>
+
+    <mat-selection-list #newRoles [(ngModel)]="selectedRoles">
+      <mat-list-option (click)="onAreaListControlChanged(newRoles)" 
+                      *ngFor="let role of roles" [value]="role.id">
+        {{role.authority}}
+      </mat-list-option>
+    </mat-selection-list>
+
+    <br/>
+    <button (click)="updateUser()" class="btn btn-primary">Update member</button>
+    <button (click)="openDialog()" class="btn btn-primary">Update pwd</button>
+</div>

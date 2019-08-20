@@ -1,0 +1,25 @@
+body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/*
+ * our table elements, different bg colors
+ */
+table {
+    width: 100%;
+}
+.mat-row:nth-child(even) {
+    background-color:rgb(153, 145, 145);
+}
+.mat-row:nth-child(even) .mat-cell {
+    color: #fff;
+}
+
+.mat-row:nth-child(odd) {
+    background-color:rgb(236, 132, 12);
+}
+
+.mat-row:nth-child(odd) .mat-cell {
+    color: #fafafa;
+}
