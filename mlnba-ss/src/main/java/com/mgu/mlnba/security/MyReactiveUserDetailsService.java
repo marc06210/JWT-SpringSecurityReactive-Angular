@@ -1,4 +1,4 @@
-package com.mgu.mlnba;
+package com.mgu.mlnba.security;
 
 import java.util.Collection;
 

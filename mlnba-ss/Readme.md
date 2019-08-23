@@ -4,11 +4,14 @@ cd /Users/guerrini/tools/mongodb-osx-x86_64-3.4.9/bin
 ./mongod --dbpath /Users/guerrini/data
 
 
-to launch the frontend
+to launch the frontend (angular but not working)
 
 cd ../mlnba-cs
 ng serve --proxy-config proxy.conf.json
 
+to launch the frontend (react)
+cd app
+yarn start
 
 test the login
 curl works
@@ -31,3 +34,11 @@ authentication, then we need to create a JWT and of course validate the token af
 
 https://content.pivotal.io/springone-platform-2018/full-stack-reactive-with-react-and-spring-webflux
 another link spring-webflux and react
+
+=> example to follow first 
+https://github.com/duyleduc/spring-boot-webflux-security/blob/master/src/main/java/com/l2d/tuto/springbootwebfluxsecurity/security/controller/UserJWTController.java
+
+maybe to read about react https://jasonwatmore.com/post/2019/04/06/react-jwt-authentication-tutorial-example
+
+this about http interceptor in react
+https://stackoverflow.com/questions/31302689/react-native-http-interceptor

@@ -1,7 +1,8 @@
 logging:
   level:
     root: INFO
-    org.springframework: DEBUG
+    org.springframework: INFO
+    com.mgu.mlnba.security: DEBUG
     
 spring:
     datasource:
