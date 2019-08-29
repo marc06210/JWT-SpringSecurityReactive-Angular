@@ -10,8 +10,9 @@ cd ../mlnba-cs
 ng serve --proxy-config proxy.conf.json
 
 to launch the frontend (react)
-cd app
+cd react-app-test
 yarn start
+https://react-bootstrap.github.io/components/navbar/#navbar-brand-props
 
 test the login
 curl works

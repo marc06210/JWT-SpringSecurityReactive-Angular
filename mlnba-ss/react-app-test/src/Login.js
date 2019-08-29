@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import './Home.css';
-import { Alert, Button, Container, FormGroup, Form, FormControl, InputGroup, Label } from "react-bootstrap";
-import { thisExpression } from '@babel/types';
-
+import { Alert, 
+  Button, 
+  Container, 
+  FormGroup, 
+  Form, 
+  FormControl, 
+  InputGroup } from 'react-bootstrap';
 
 export default class Login extends Component {
 
@@ -12,30 +16,23 @@ export default class Login extends Component {
     this.state = {
         username: '',
         password: '',
-        message: 'empty',
         error: false
       };
-      //console.log('->' + this.props.location.state.customData);
   }
 
   componentDidMount () {
-    console.log('componentDidMount()');
-    //console.log('->' + this.props.location.state.customData);
-    //const { fromNotifications } = this.props.location.state
-    //this.setState({message: fromNotifications});
+    this.showLoginButton = this.props.location.showLoginButton.bind(this);
+    this.showLoginButton(false);
+  }
+
+  componentWillUnmount() {
+    if(!this.state.connected) {
+      this.showLoginButton(true);
+    }
   }
 
   validateForm() {
     return this.state.username.length > 0 && this.state.password.length > 0;
-  }
-
-  handleChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    let item = {...this.state.item};
-    item[name] = value;
-    this.setState({item});
   }
 
   changeHandler = event => {
@@ -63,17 +60,9 @@ export default class Login extends Component {
         }
       }).then((data)=>{
         if(data!=null) {
-          console.log('token: ' + data.token);
-
-            /*if(this.props.callbackForLogin!=null) {
-              this.props.callbackForLogin(true);
-            } else {
-              console.log('no callback');
-            }*/
-
             window.sessionStorage.setItem("jwt", data.token);
+            this.setState({connected: true});
             this.props.history.goBack();
-            this.setState({error: false});
         } else {
           this.setState({error: true});
         }

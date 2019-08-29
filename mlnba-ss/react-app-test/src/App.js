@@ -9,18 +9,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isconnected: false,
-      isconnected: false
+      showLoginButton: true
     };
-    //this.handleClick = this.handleClick.bind(this);
-    this.sendStatus = this.sendStatus.bind(this);
   }
 
-  sendStatus(connected, connecting) {
-    console.log('sendStatus');
+  showLoginButton = (value) => {
     this.setState({ 
-      isconnected: connected,
-      isconnecting: connecting
+      showLoginButton: value
     });
   }
 
@@ -63,7 +58,7 @@ class App extends Component {
             
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
-              <LoginLink />
+            { this.state.showLoginButton && <LoginLink sendStatus={this.showLoginButton}/> }
             </Navbar.Collapse>
         </Navbar>
         <Routes />
@@ -71,24 +66,18 @@ class App extends Component {
     );
   }
 }
-/*
-{ !(this.state.connected || this.state.isconnecting) && <LoginLink statusCallback={this.sendStatus}/> }
-*/
+
 class LoginLink extends Component {
   constructor(props) {
     super(props);
-    this.sendStatus = this.sendStatus.bind(this);
+    this.sendStatus = this.props.sendStatus.bind(this);
   }
-  sendStatus(){
-    console.log('sendStatus in LoginLink');
-  }
+
   render() {
     return <NavItem as={Link} to={{
-      pathname: '/login',
-      state: {
-        msg: () => this.sendStatus()
-      }
-    }}>Se connecter</NavItem>
+        pathname: '/login',
+        showLoginButton: this.sendStatus
+      }}>Se connecter</NavItem>
   }
 }
 
