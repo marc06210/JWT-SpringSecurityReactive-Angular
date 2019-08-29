@@ -14,8 +14,9 @@ public class AuthorizationModifierFilter implements WebFilter {
         return chain.filter(exchange).doAfterTerminate(() -> {
 
             if (exchange.getResponse().getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-                exchange.getResponse().setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-                exchange.getResponse().getHeaders().add("location", "/login");
+//                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                //exchange.getResponse().getHeaders().add("location", "/login");
+                exchange.getResponse().getHeaders().remove("www-authenticate");
             }
         });
     }
