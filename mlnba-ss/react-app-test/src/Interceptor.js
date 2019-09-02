@@ -33,7 +33,7 @@ export const unregister = fetchIntercept.register({
         } else {
             console.log(response);
             if(response!=null && response.status===401) {
-                window.location.href = '/login';
+                //window.location.href = '/login';
                 return response;
             }
             return response;
