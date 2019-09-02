@@ -13,7 +13,7 @@ class App extends Component {
     };
   }
 
-  showLoginButton = (value) => {
+  setLoginButtonVisibility = (value) => {
     this.setState({ 
       showLoginButton: value
     });
@@ -21,8 +21,12 @@ class App extends Component {
 
   handleClick = () => {
     console.log('handleClick');
-    //this.sendStatus(false, true);
-    //this.setState({ isconnected: !this.state.isconnected });
+  }
+
+  disconnect = () => {
+    console.log('here');
+    window.sessionStorage.removeItem("jwt");
+    this.setState({ showLoginButton: true });
   }
 
   render() {
@@ -39,7 +43,7 @@ class App extends Component {
               </Navbar.Collapse>
 
             <NavDropdown title="Le club" id="collasible-nav-dropdown">
-              <NavDropdown.Item onClick={this.handleClick}>Action</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.handleClick}><i className="fa fa-envelope fa-fw"></i>Action</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/teams">Les équipes</NavDropdown.Item>
 
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -58,7 +62,9 @@ class App extends Component {
             
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
-            { this.state.showLoginButton && <LoginLink sendStatus={this.showLoginButton}/> }
+              <LoginLink show={this.state.showLoginButton} sendStatus={this.setLoginButtonVisibility}/>
+            { !this.state.showLoginButton && 
+              <NavItem as={Link} to="/" onClick={this.disconnect}>Se déconnecter</NavItem> }
             </Navbar.Collapse>
         </Navbar>
         <Routes />
@@ -71,13 +77,21 @@ class LoginLink extends Component {
   constructor(props) {
     super(props);
     this.sendStatus = this.props.sendStatus.bind(this);
+    this.show = this.props.showLogin;
   }
 
   render() {
-    return <NavItem as={Link} to={{
+    if(this.props.show) {
+      return <NavItem as={Link} to={{
         pathname: '/login',
         showLoginButton: this.sendStatus
       }}>Se connecter</NavItem>
+    } else {
+
+      return null;
+
+    }
+    
   }
 }
 

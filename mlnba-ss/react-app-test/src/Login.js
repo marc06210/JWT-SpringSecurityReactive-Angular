@@ -21,12 +21,17 @@ export default class Login extends Component {
   }
 
   componentDidMount () {
+   // console.log('cdm -> ' + )
+    if(this.props.location.showLoginButton===undefined) {
+      this.props.history.push('/')
+      return;
+    }
     this.showLoginButton = this.props.location.showLoginButton.bind(this);
     this.showLoginButton(false);
   }
 
   componentWillUnmount() {
-    if(!this.state.connected) {
+    if(!this.state.connected && this.showLoginButton!=undefined) {
       this.showLoginButton(true);
     }
   }
