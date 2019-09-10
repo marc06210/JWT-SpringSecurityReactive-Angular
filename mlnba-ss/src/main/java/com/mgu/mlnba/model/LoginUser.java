@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginUser {
 
+    private String id;
     private String username;
     private String lastname;
     private String firstname;
@@ -19,6 +20,7 @@ public class LoginUser {
     private List<String> roles;
 
     public LoginUser(Member member) {
+        this.id = member.getId();
         this.username = member.getUsername();
         this.lastname = member.getLastname();
         this.firstname = member.getFirstname();

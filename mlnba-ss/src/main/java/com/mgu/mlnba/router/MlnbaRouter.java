@@ -54,7 +54,7 @@ public class MlnbaRouter {
                 .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), personHandler::listPerson)
             .andRoute(GET("/member/{id}"), personHandler::getPersonById)
             .andRoute(DELETE("/member/{id}"), personHandler::deletePersonById)
-            .andRoute(PUT("/member"), personHandler::updatePersonById)
+            .andRoute(PUT("/member/{id}"), personHandler::updatePersonById)
             .andRoute(POST("/member").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), personHandler::createPerson)
             .andRoute(PUT("/member/{id}/pwd").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), personHandler::updatePassword);
     }
@@ -73,6 +73,6 @@ public class MlnbaRouter {
 //    @Bean
     public RouterFunction<ServerResponse> routeUtils() {
         return RouterFunctions
-            .route(GET("/role"), utilsHandler::listRoles);
+            .route(GET("/admin/role"), utilsHandler::listRoles);
     }
 }
