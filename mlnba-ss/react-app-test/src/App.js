@@ -14,7 +14,7 @@ class App extends Component {
   }
 
   setLoginButtonVisibility = (value) => {
-    this.setState({ 
+    this.setState({
       showLoginButton: value
     });
   }
@@ -33,36 +33,36 @@ class App extends Component {
     return (
       <div className="App container">
 
-      <Navbar bg="light" expand="lg">
-            <Navbar.Toggle />
-            <Navbar.Collapse>
-              <Link to="/">Home</Link>
-              </Navbar.Collapse>
+        <Navbar bg="light" expand="lg">
+          <Navbar.Toggle />
+          <Navbar.Collapse>
+            <Link to="/">Home</Link>
+          </Navbar.Collapse>
 
-            <NavDropdown title="Le club" id="collasible-nav-dropdown">
-              <NavDropdown.Item onClick={this.handleClick}><i className="fa fa-envelope fa-fw"></i>Action</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/teams">Les équipes</NavDropdown.Item>
+          <NavDropdown title="Le club" id="collasible-nav-dropdown">
+            <NavDropdown.Item onClick={this.handleClick}><i className="fa fa-envelope fa-fw"></i>Action</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/teams">Les équipes</NavDropdown.Item>
 
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="/members">Les membres</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
+            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item as={Link} to="/members">Les membres</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+          </NavDropdown>
 
-            <NavDropdown title="Entrainements" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
-            
-            <Navbar.Toggle />
-            <Navbar.Collapse className="justify-content-end">
-              <LoginLink show={this.state.showLoginButton} sendStatus={this.setLoginButtonVisibility}/>
-            { !this.state.showLoginButton && 
-              <NavItem as={Link} to="/" onClick={this.disconnect}>Se déconnecter</NavItem> }
-            </Navbar.Collapse>
+          <NavDropdown title="Entrainements" id="collasible-nav-dropdown">
+            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+          </NavDropdown>
+
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <LoginLink show={this.state.showLoginButton} sendStatus={this.setLoginButtonVisibility} />
+            {!this.state.showLoginButton &&
+              <NavItem as={Link} to="/" onClick={this.disconnect}>Se déconnecter</NavItem>}
+          </Navbar.Collapse>
         </Navbar>
         <Routes />
       </div>
@@ -78,7 +78,7 @@ class LoginLink extends Component {
   }
 
   render() {
-    if(this.props.show) {
+    if (this.props.show) {
       return <NavItem as={Link} to={{
         pathname: '/login',
         showLoginButton: this.sendStatus
@@ -88,7 +88,7 @@ class LoginLink extends Component {
       return null;
 
     }
-    
+
   }
 }
 

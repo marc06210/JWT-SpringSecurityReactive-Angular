@@ -9,13 +9,13 @@ import memberDetails from './containers/MemberDetails';
 import teamDetails from './containers/TeamDetails';
 
 class Unauthorized extends Component {
-  render () {
+  render() {
     return <div className="Home">
-    <div className="lander">
-      <h1>Erreur!!!</h1>
-      <p>Vous n'êtes pas autorisé à accéder à cette page</p>
-    </div>
-  </div>;
+      <div className="lander">
+        <h1>Erreur!!!</h1>
+        <p>Vous n'êtes pas autorisé à accéder à cette page</p>
+      </div>
+    </div>;
   }
 }
 export default () =>

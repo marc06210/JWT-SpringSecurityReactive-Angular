@@ -3,9 +3,8 @@ import './Home.css';
 import { Carousel, CarouselItem } from 'react-bootstrap';
 
 
-const CustomItem  = ({content}) => {
-    return  (<div><h1>{content}</h1>
-    </div>)
+const CustomItem = ({ content }) => {
+  return (<div><h1>{content}</h1></div>)
 }
 
 function ControlledCarousel() {
@@ -20,21 +19,21 @@ function ControlledCarousel() {
 
   return (
     <Carousel activeIndex={index} direction={direction} onSelect={handleSelect}>
-      {items.map(item => <Carousel.Item><CustomItem content={item}/></Carousel.Item>)}
+      {items.map(item => <Carousel.Item><CustomItem content={item} /></Carousel.Item>)}
     </Carousel>
   );
 }
 
 export default class Home extends Component {
 
-  
+
   render() {
     return (
       <div className="Home">
         <div className="lander">
-          <h1>Scratch</h1>
+          <h1>Scratch</h1>Ò
           <p>A simple note taking app</p>
-          <hr/>
+          <hr />
           <ControlledCarousel />
         </div>
       </div>
