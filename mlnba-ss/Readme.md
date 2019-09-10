@@ -43,3 +43,9 @@ maybe to read about react https://jasonwatmore.com/post/2019/04/06/react-jwt-aut
 
 this about http interceptor in react
 https://stackoverflow.com/questions/31302689/react-native-http-interceptor
+
+
+=> remplir un contenu à partir d'une liste
+https://medium.com/maxime-heckel/asynchronous-rendering-with-react-c323cda68f41
+
+https://www.robinwieruch.de/react-function-component

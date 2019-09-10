@@ -27,6 +27,11 @@
   color: #61dafb;
 }
 
+# to hide the close button on the modal header
+.modal-header .close {
+  display:none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

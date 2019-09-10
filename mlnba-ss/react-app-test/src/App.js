@@ -34,9 +34,6 @@ class App extends Component {
       <div className="App container">
 
       <Navbar bg="light" expand="lg">
-            <Navbar.Brand>
-              <Link to="/">Home</Link>
-            </Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>
               <Link to="/">Home</Link>

@@ -5,6 +5,7 @@ import Login from './Login';
 import NotFound from './NotFound';
 import teamList from './containers/TeamList';
 import memberList from './containers/MemberList';
+import memberDetails from './containers/MemberDetails';
 import teamDetails from './containers/TeamDetails';
 
 class Unauthorized extends Component {
@@ -23,6 +24,7 @@ export default () =>
     <Route path='/teams' exact={true} component={teamList} />
     <Route path='/teams/:id' exact={true} component={teamDetails} />
     <Route path='/members' exact={true} component={memberList} />
+    <Route path='/members/:id' exact={true} component={memberDetails} />
     <Route path='/login' component={Login} />
     <Route path='/unauthorized' component={Unauthorized} />
     <Route component={NotFound} />
