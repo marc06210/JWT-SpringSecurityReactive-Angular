@@ -11,11 +11,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MemberListComponent } from './member-list/member-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TeamListComponent
+    TeamListComponent,
+    MemberListComponent
   ],
   imports: [
     BrowserModule,
