@@ -1,0 +1,11 @@
+<mat-card>
+    <mat-card-title>Team List works!</mat-card-title>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let team of teams">
+          <!--<img mat-list-avatar src="{{team.giphyUrl}}" alt="{{team.name}}">-->
+          <h3 mat-line>{{team.name}}</h3>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
