@@ -59,19 +59,25 @@ public class WebSecurityConfig  {
         */
         http
             .authorizeExchange()
-                .pathMatchers(HttpMethod.OPTIONS)
-                .permitAll()
-            .and()
-                .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
-                .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
-                .authorizeExchange()
-                .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
-                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
-                .pathMatchers("/process_login", "/login", "/logout").permitAll()
-                .anyExchange().authenticated();
+                //.pathMatchers(HttpMethod.OPTIONS)
+            .anyExchange().permitAll();
+//            .and()
+//              .cors()
+//              .and()
+//                .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
+//                .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
+//                .authorizeExchange()
+//                .pathMatchers(HttpMethod.OPTIONS, "/api/team").permitAll()
+//                .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
+////                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
+//                .pathMatchers("/process_login", "/login", "/logout").permitAll()
+//                .anyExchange().authenticated();
         
-        http.httpBasic().disable()
-            .formLogin().disable()
+//        http.cors();
+        
+        http.httpBasic()/*.disable()
+            .formLogin().disable()*/
+            .and()
             .csrf().disable()
             .logout().disable();
 

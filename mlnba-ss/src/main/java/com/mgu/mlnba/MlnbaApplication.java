@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import com.mgu.mlnba.model.Member;
 import com.mgu.mlnba.model.Role;
@@ -18,7 +21,6 @@ import com.mgu.mlnba.repository.TeamRepository;
 
 import reactor.core.publisher.Flux;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @SpringBootApplication
 public class MlnbaApplication {
     
@@ -32,6 +34,25 @@ public class MlnbaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MlnbaApplication.class, args);
+    }
+    
+//    @Bean
+    CorsWebFilter corsFilter2() {
+        return new CorsWebFilter(exchange -> new CorsConfiguration().applyPermitDefaultValues());
+    }
+    
+    @Bean
+    CorsWebFilter corsFilter() {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowCredentials(true);
+            config.addAllowedOrigin("http://localhost:4200");
+            config.addAllowedHeader("*");
+            config.addAllowedMethod("*");
+
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/api/team", config);
+
+            return new CorsWebFilter(source);
     }
     
     @EventListener(ApplicationReadyEvent.class)
