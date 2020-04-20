@@ -11,8 +11,15 @@ public class WebConfig implements WebFluxConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-
         registry.addMapping("/api/member/**")
+        .allowedOrigins("http://localhost:4200", "http://localhost:3000")
+        .allowedMethods("OPTIONS", "GET", "POST", "PUT")// ,"DELETE")
+        .allowedHeaders("Access-Control-Allow-Origin")
+//        .allowedHeaders("header1", "header2", "header3")
+//        .exposedHeaders("header1", "header2")
+        .allowCredentials(true).maxAge(3600);
+        
+        registry.addMapping("/api/team/**")
             .allowedOrigins("http://localhost:4200", "http://localhost:3000")
             .allowedMethods("OPTIONS", "GET", "POST", "PUT")// ,"DELETE")
             .allowedHeaders("Access-Control-Allow-Origin")

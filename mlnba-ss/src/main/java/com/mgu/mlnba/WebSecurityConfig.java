@@ -66,6 +66,7 @@ public class WebSecurityConfig  {
                 .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
+                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
                 .pathMatchers("/process_login", "/login", "/logout").permitAll()
                 .anyExchange().authenticated();
         
