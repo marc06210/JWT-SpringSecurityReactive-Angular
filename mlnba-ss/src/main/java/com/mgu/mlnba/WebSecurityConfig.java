@@ -7,12 +7,16 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
+import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
+import org.springframework.web.reactive.config.EnableWebFlux;
 
 import com.mgu.mlnba.security.AuthorizationModifierFilter;
 import com.mgu.mlnba.security.JWTHeadersExchangeMatcher;
@@ -20,8 +24,11 @@ import com.mgu.mlnba.security.JWTReactiveAuthenticationManager;
 import com.mgu.mlnba.security.ServerTokenAuthenticationConverter;
 import com.mgu.mlnba.security.TokenProvider;
 
+import reactor.core.publisher.Mono;
+
 @EnableReactiveMethodSecurity
 @EnableWebFluxSecurity
+@EnableWebFlux
 public class WebSecurityConfig  {
     
     @Autowired
@@ -58,26 +65,26 @@ public class WebSecurityConfig  {
         
         */
         http
-            .authorizeExchange()
-                //.pathMatchers(HttpMethod.OPTIONS)
-            .anyExchange().permitAll();
+//            .authorizeExchange()
+//                .pathMatchers(HttpMethod.OPTIONS)
+//                .permitAll()
 //            .and()
 //              .cors()
 //              .and()
-//                .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
-//                .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
-//                .authorizeExchange()
-//                .pathMatchers(HttpMethod.OPTIONS, "/api/team").permitAll()
-//                .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
-////                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
-//                .pathMatchers("/process_login", "/login", "/logout").permitAll()
-//                .anyExchange().authenticated();
+                .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
+                .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
+                .authorizeExchange()
+                .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
+//                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
+//                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
+                .pathMatchers("/process_login", "/login", "/logout").permitAll()
+                .anyExchange().authenticated();
         
 //        http.cors();
         
-        http.httpBasic()/*.disable()
-            .formLogin().disable()*/
-            .and()
+        http.httpBasic().disable()
+            .formLogin().disable()
+//            .and()
             .csrf().disable()
             .logout().disable();
 
@@ -101,11 +108,23 @@ public class WebSecurityConfig  {
         AuthenticationWebFilter authenticationWebFilter = new AuthenticationWebFilter(repositoryReactiveAuthenticationManager());
         authenticationWebFilter.setServerAuthenticationConverter(new ServerTokenAuthenticationConverter(tokenProvider));
         authenticationWebFilter.setRequiresAuthenticationMatcher(new JWTHeadersExchangeMatcher());
+        authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
         authenticationWebFilter.setSecurityContextRepository(new WebSessionServerSecurityContextRepository());
         return authenticationWebFilter;
     }
     
-    
+    @Bean
+    public ServerAuthenticationFailureHandler authenticationFailureHandler() {
+        ServerAuthenticationFailureHandler failureHandler = new ServerAuthenticationFailureHandler() {
+            
+            @Override
+            public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange, AuthenticationException exception) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+        };
+        return failureHandler;
+    }
     @Bean
     public JWTReactiveAuthenticationManager repositoryReactiveAuthenticationManager() {
         JWTReactiveAuthenticationManager repositoryReactiveAuthenticationManager = new JWTReactiveAuthenticationManager(reactiveUserDetailsService, encoder());

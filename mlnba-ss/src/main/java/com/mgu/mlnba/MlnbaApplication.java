@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.web.cors.CorsConfiguration;
@@ -41,7 +40,7 @@ public class MlnbaApplication {
         return new CorsWebFilter(exchange -> new CorsConfiguration().applyPermitDefaultValues());
     }
     
-    @Bean
+//    @Bean
     CorsWebFilter corsFilter() {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowCredentials(true);
@@ -51,7 +50,8 @@ public class MlnbaApplication {
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/api/team", config);
-
+            source.registerCorsConfiguration("/api/member", config);
+            
             return new CorsWebFilter(source);
     }
     

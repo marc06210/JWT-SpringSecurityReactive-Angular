@@ -12,6 +12,6 @@ export class TeamService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get('//localhost:8080/api/team');
+    return this.http.get('/api/team');
   }
 }

@@ -14,13 +14,16 @@ public class JWTHeadersExchangeMatcher implements ServerWebExchangeMatcher {
     
     @Override
     public Mono<MatchResult> matches(final ServerWebExchange exchange) {
-        logger.debug("matches(ServerWebExchange)");
+        logger.debug("matches({} - {})", exchange.getRequest().getMethod(), exchange.getRequest().getPath());
         Mono<ServerHttpRequest> request = Mono.just(exchange).map(ServerWebExchange::getRequest);
 
         /* Check for header "Authorization" */
         return request.map(ServerHttpRequest::getHeaders)
                 .filter(h -> h.containsKey(HttpHeaders.AUTHORIZATION))
-                .flatMap($ -> MatchResult.match())
+                .flatMap($ -> { 
+                    logger.debug("match");
+                    return MatchResult.match();
+                    })
                 .switchIfEmpty(MatchResult.notMatch());
     }
 }

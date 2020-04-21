@@ -11,6 +11,6 @@ export class MemberService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get('//localhost:8080/api/member');
+    return this.http.get('/api/member');
   }
 }
