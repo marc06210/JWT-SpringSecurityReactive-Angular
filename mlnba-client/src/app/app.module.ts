@@ -19,17 +19,30 @@ import { FormsModule } from '@angular/forms';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
+  constructor(private app: AppService) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const xhr = req.clone({
-      //headers: req.headers.set('X-Requested-With', 'XMLHttpRequest').set('Access-Control-Allow-Origin', 'http://localhost:4200')
-      headers: new HttpHeaders({ 
-        'X-Requested-With': 'XMLHttpRequest'
-        //'Access-Control-Allow-Origin':'*'
-        //'Accept':'application/json'
-      })
-    });
-    return next.handle(xhr);
+    console.log('intercept: ' + this.app.token);
+    const xhr = null;
+    if(this.app.token!=null) {
+      const xhr = req.clone({
+        headers: new HttpHeaders({ 
+          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization' : 'Bearer '+this.app.token
+        })
+      });
+      return next.handle(xhr);
+    } else {
+
+      const xhr = req.clone({
+        headers: new HttpHeaders({ 
+          'X-Requested-With': 'XMLHttpRequest'
+        })
+      });
+      return next.handle(xhr);
+    }
+    
   }
 }
 

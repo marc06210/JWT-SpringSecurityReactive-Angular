@@ -25,6 +25,14 @@ http -v POST :8080/login&username=toto Content-Type:application/x-www-form-urlen
 do not forget the --form :)
 http --form -v POST :8080/login Content-Type:application/x-www-form-urlencoded username=marc password=password
 
+working version
+
+http POST :8080/process_login <<< '{"username": "marc","password": "password"}'
+
+
+
+
+
 sources
 
 https://www.infoq.com/presentations/reactive-spring-security-5-1/
@@ -49,3 +57,19 @@ https://stackoverflow.com/questions/31302689/react-native-http-interceptor
 https://medium.com/maxime-heckel/asynchronous-rendering-with-react-c323cda68f41
 
 https://www.robinwieruch.de/react-function-component
+
+
+
+
+
+CORS
+
+
+
+Voir la conf WebFluxConfigurationSupport.getCorsConfigurations()
+
+
+
+debug au runtime
+
+org.springframework.web.cors.reactive.CorsWebFilter.filter()

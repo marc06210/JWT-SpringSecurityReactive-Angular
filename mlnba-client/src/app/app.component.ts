@@ -13,12 +13,17 @@ export class AppComponent {
   title = 'mlnba-client';
 
   constructor(private app: AppService, private http: HttpClient, private router: Router) {
-    this.app.authenticate(undefined, undefined);
   }
+
   logout() {
-    this.http.post('logout', {}).subscribe(() => {
+    //this.http.post('logout', {}).subscribe(() => {
         this.app.authenticated = false;
-        this.router.navigateByUrl('/login');
-    });
+        this.app.token = null;
+        this.router.navigateByUrl('/');
+    //});
+  }
+
+  authenticated() {
+    return this.app.authenticated;
   }
 }

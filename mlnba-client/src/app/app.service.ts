@@ -11,19 +11,19 @@ export class AppService {
   }
 
   authenticate(credentials, callback) {
-        //const headers = new HttpHeaders(credentials ? {
-        //    authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-        //} : {});
-        if(credentials) {
+        if(credentials) { 
             var params = {
                 username: credentials.username,
                 password: credentials.password
             }
 
             this.http.post('/conn/process_login', params).subscribe(response => {
-                if (response['token']) {
+                var res : any = response;
+
+                console.log(res.token);
+                if (res.token) {
                     this.authenticated = true;
-                    this.token = response['token'];
+                    this.token = res.token;
                 } else {
                     this.authenticated = false;
                     this.token = null;
@@ -33,8 +33,6 @@ export class AppService {
         } else {
             this.authenticated = false;
         }
-        console.log('token: ' + this.token);
-
     }
 
 }

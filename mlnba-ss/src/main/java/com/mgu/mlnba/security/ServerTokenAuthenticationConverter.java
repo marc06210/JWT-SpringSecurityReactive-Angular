@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
 import org.springframework.util.StringUtils;
@@ -35,7 +36,8 @@ public class ServerTokenAuthenticationConverter implements ServerAuthenticationC
                 .map(isolateBearerValue)
                 .filter(token -> !StringUtils.isEmpty(token))
                 .map(tokenProvider::getAuthentication)
-                .filter(Objects::nonNull);
+                .onErrorResume(e -> Mono.fromRunnable(() -> serverWebExchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED)))
+                ;
     }
     
 

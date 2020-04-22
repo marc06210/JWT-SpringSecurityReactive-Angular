@@ -1,8 +1,10 @@
 package com.mgu.mlnba;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
@@ -15,11 +17,12 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
-import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 
 import com.mgu.mlnba.security.AuthorizationModifierFilter;
-import com.mgu.mlnba.security.JWTHeadersExchangeMatcher;
 import com.mgu.mlnba.security.JWTReactiveAuthenticationManager;
 import com.mgu.mlnba.security.ServerTokenAuthenticationConverter;
 import com.mgu.mlnba.security.TokenProvider;
@@ -28,69 +31,42 @@ import reactor.core.publisher.Mono;
 
 @EnableReactiveMethodSecurity
 @EnableWebFluxSecurity
-@EnableWebFlux
-public class WebSecurityConfig  {
+public class WebSecurityConfig {
+    
+    private final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);
     
     @Autowired
     TokenProvider tokenProvider;
     
     @Autowired
     ReactiveUserDetailsService reactiveUserDetailsService;
-    
+    private static String[] permittedUrl = new String[]{
+            "/process_login", "/login", "/logout", "/api/team"
+        };
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        /*
-        return http
-                .authorizeExchange()
-                .pathMatchers(HttpMethod.OPTIONS)
-                .permitAll()
-            
-//        .csrf()
-//            .disable()
-//            .headers()
-//            .frameOptions().disable()
-//            .cache().disable()
-        .and()
-            .authorizeExchange()
-            .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
-            .pathMatchers("/process_login", "/login", "/logout").permitAll()
-        .and()
-            .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
-            //.addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
-            .httpBasic().disable()
-            .formLogin().disable()
-            .logout().disable()
-            .csrf().disable()
-            .build();
+
         
-        */
         http
-//            .authorizeExchange()
-//                .pathMatchers(HttpMethod.OPTIONS)
-//                .permitAll()
-//            .and()
-//              .cors()
-//              .and()
+            .authorizeExchange()
+                .pathMatchers(permittedUrl).permitAll()
+                .anyExchange().authenticated()
+            .and()
                 .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
-                .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION)
-                .authorizeExchange()
-                .pathMatchers(HttpMethod.GET, "/api/team").permitAll()
-//                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
-//                .pathMatchers(HttpMethod.GET, "/api/member").permitAll()
-                .pathMatchers("/process_login", "/login", "/logout").permitAll()
-                .anyExchange().authenticated();
-        
-//        http.cors();
-        
+                .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION) // this to avoid the popup
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+            ;
         http.httpBasic().disable()
             .formLogin().disable()
-//            .and()
             .csrf().disable()
             .logout().disable();
 
         return http.build();
+ 
+
         
     }
+    
     /*
     private ServerCsrfTokenRepository csrfTokenRepository() {
         WebSessionServerCsrfTokenRepository repository = new WebSessionServerCsrfTokenRepository();
@@ -102,25 +78,27 @@ public class WebSecurityConfig  {
     public PasswordEncoder encoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    
-    @Bean
+
     public AuthenticationWebFilter webFilter() {
         AuthenticationWebFilter authenticationWebFilter = new AuthenticationWebFilter(repositoryReactiveAuthenticationManager());
         authenticationWebFilter.setServerAuthenticationConverter(new ServerTokenAuthenticationConverter(tokenProvider));
-        authenticationWebFilter.setRequiresAuthenticationMatcher(new JWTHeadersExchangeMatcher());
-        authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
+        NegatedServerWebExchangeMatcher negateWhiteList = new NegatedServerWebExchangeMatcher(ServerWebExchangeMatchers.pathMatchers(permittedUrl));
+//        OrServerWebExchangeMatcher orMatcher = new OrServerWebExchangeMatcher(Arrays.asList(negateWhiteList, new JWTHeadersExchangeMatcher()));
+        authenticationWebFilter.setRequiresAuthenticationMatcher(negateWhiteList);
+//        authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
         authenticationWebFilter.setSecurityContextRepository(new WebSessionServerSecurityContextRepository());
         return authenticationWebFilter;
     }
     
-    @Bean
     public ServerAuthenticationFailureHandler authenticationFailureHandler() {
         ServerAuthenticationFailureHandler failureHandler = new ServerAuthenticationFailureHandler() {
             
             @Override
-            public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange, AuthenticationException exception) {
-                // TODO Auto-generated method stub
-                return null;
+            public Mono<Void> onAuthenticationFailure(WebFilterExchange exchange, AuthenticationException exception) {
+                LOGGER.debug("onAuthenticationFailure(): {}", exception.getMessage()); 
+                return Mono.fromRunnable(() -> {
+                    exchange.getExchange().getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+              });
             }
         };
         return failureHandler;
