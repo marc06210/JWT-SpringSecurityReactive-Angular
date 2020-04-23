@@ -17,7 +17,7 @@ export class AppService {
                 password: credentials.password
             }
 
-            this.http.post('/conn/process_login', params).subscribe(response => {
+            this.http.post('/api/login', params).subscribe(response => {
                 var res : any = response;
 
                 console.log(res.token);
