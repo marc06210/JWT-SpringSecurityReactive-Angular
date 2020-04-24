@@ -80,7 +80,7 @@ org.springframework.web.cors.reactive.CorsWebFilter.filter()
 
 // init d'un programme angular
 
-// ajout theme angular
+// ajout theme angular material
 
 ng add @angular/material
 
