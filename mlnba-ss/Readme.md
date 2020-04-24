@@ -29,7 +29,7 @@ working version
 
 http POST :8080/process_login <<< '{"username": "marc","password": "password"}'
 
-
+http :8080/api/me Authorization:"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjIiwiYXV0aCI6InJvbGVfYWRtaW4iLCJleHAiOjE1ODc3NTI5NjN9.xiNdQ_9NF7GNDN8yJO4Wi9Vk5a5mUaEQmCRc4sXhyfZJaWJkGd1MfQoQgPdnOhawEdT6zS9KTmwpYGLo1GsOWw"
 
 
 
@@ -73,3 +73,22 @@ Voir la conf WebFluxConfigurationSupport.getCorsConfigurations()
 debug au runtime
 
 org.springframework.web.cors.reactive.CorsWebFilter.filter()
+
+
+
+
+
+// init d'un programme angular
+
+// ajout theme angular
+
+ng add @angular/material
+
+ng add @angular/cdk
+
+// ajout services, composants
+
+// configuration proxy
+
+ng serve --proxy-config proxy.conf.json
+

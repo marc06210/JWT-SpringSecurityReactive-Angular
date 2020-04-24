@@ -40,9 +40,10 @@ public class WebSecurityConfig {
     
     @Autowired
     ReactiveUserDetailsService reactiveUserDetailsService;
-    private static String[] permittedUrl = new String[]{
-            "/process_login", "/login", "/logout", "/api/team"
-        };
+    private static String[] permittedUrl = new String[]{ "/api/login", "/logout", "/api/team" };
+    
+    // TODO: logout sur stateless, TokenRepository ?
+    
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
@@ -85,7 +86,7 @@ public class WebSecurityConfig {
         NegatedServerWebExchangeMatcher negateWhiteList = new NegatedServerWebExchangeMatcher(ServerWebExchangeMatchers.pathMatchers(permittedUrl));
 //        OrServerWebExchangeMatcher orMatcher = new OrServerWebExchangeMatcher(Arrays.asList(negateWhiteList, new JWTHeadersExchangeMatcher()));
         authenticationWebFilter.setRequiresAuthenticationMatcher(negateWhiteList);
-//        authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
+        authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
         authenticationWebFilter.setSecurityContextRepository(new WebSessionServerSecurityContextRepository());
         return authenticationWebFilter;
     }

@@ -36,4 +36,8 @@ public class AuthRequest {
         this.password = password;
     }
 
+    public String toString() {
+        return "{ username: '" + this.username + "', password: *** }";
+    }
+
 }

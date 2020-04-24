@@ -50,6 +50,7 @@ public class MlnbaRouter {
     public RouterFunction<ServerResponse> routeMembers() {
         return RouterFunctions
             .route(GET("/me"), personHandler::me)
+            .andRoute(POST("/login").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), personHandler::login)
             .andRoute(GET("/member")
                 .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), personHandler::listPerson)
             .andRoute(GET("/member/{id}"), personHandler::getPersonById)

@@ -1,49 +1,72 @@
 package com.mgu.mlnba.handler;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.mgu.mlnba.model.LoginUser;
 import com.mgu.mlnba.model.Member;
 import com.mgu.mlnba.model.PasswordUpdate;
 import com.mgu.mlnba.repository.MemberRepository;
+import com.mgu.mlnba.security.AuthRequest;
+import com.mgu.mlnba.security.JWTReactiveAuthenticationManager;
+import com.mgu.mlnba.security.JWTToken;
+import com.mgu.mlnba.security.TokenProvider;
 
-import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
+
 
 @Component
 public class MemberHandler {
 
-//    @Autowired
     private final MemberRepository personRepo;
-    
-    //@Autowired
     private final PasswordEncoder encoder;
+    private final TokenProvider jwtUtils;
+
+  private JWTReactiveAuthenticationManager authenticationManager;    
     
-    
-    public MemberHandler(MemberRepository memberRepo) {
+    public MemberHandler(MemberRepository memberRepo, TokenProvider jwtUtils, JWTReactiveAuthenticationManager authenticationManager) {
         this.personRepo = memberRepo;
         this.encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
+        
+    }
+
+    public Mono<ServerResponse> login(ServerRequest request) {
+        // @formatter:off
+        Mono<JWTToken> token = request.bodyToMono(AuthRequest.class)
+                .map(ar -> new UsernamePasswordAuthenticationToken(ar.getUsername(), ar.getPassword()))
+                .flatMap(this.authenticationManager::authenticate)
+                .map(jwtUtils::createToken)
+                .map(JWTToken::new);
+
+        return ServerResponse.ok()
+                .body(token.onErrorMap(e -> new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Credentials error")), JWTToken.class);
+        // @formatter:on
     }
     
     
     public Mono<ServerResponse> me(ServerRequest request) {
-        Mono<Member> res = request.principal()
+        Mono<User> res = request.principal()
         .ofType(Authentication.class)
         .map(Authentication.class::cast)
         .map(Authentication::getPrincipal)
-        .map(Member.class::cast)
-        .map(Member::getCopyNoPassword);
-        
-        //Member m = res.block();
-
-        return ServerResponse.ok().body(res, Member.class);
+        .map(User.class::cast)
+        ;
+//        Object a = res.block();
+        //subscribe(System.out::println);
+//        .map(Member.class::cast)
+//        .map(Member::getCopyNoPassword);
+        return ServerResponse.ok().body(res, User.class);
     }
 
     public Mono<ServerResponse> listPerson(ServerRequest request) {
