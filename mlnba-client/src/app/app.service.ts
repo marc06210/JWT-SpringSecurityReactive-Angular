@@ -10,29 +10,4 @@ export class AppService {
   constructor(private http: HttpClient) {
   }
 
-  authenticate(credentials, callback) {
-        if(credentials) { 
-            var params = {
-                username: credentials.username,
-                password: credentials.password
-            }
-
-            this.http.post('/api/login', params).subscribe(response => {
-                var res : any = response;
-
-                console.log(res.token);
-                if (res.token) {
-                    this.authenticated = true;
-                    this.token = res.token;
-                } else {
-                    this.authenticated = false;
-                    this.token = null;
-                }
-                return callback && callback();
-            });
-        } else {
-            this.authenticated = false;
-        }
-    }
-
 }

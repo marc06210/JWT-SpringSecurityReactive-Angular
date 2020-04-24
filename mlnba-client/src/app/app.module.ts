@@ -16,6 +16,7 @@ import { MemberListComponent } from './member-list/member-list.component';
 import { LoginComponent } from './login/login.component';
 import { AppService } from './app.service';
 import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -23,8 +24,6 @@ export class XhrInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log('intercept: ' + this.app.token);
-    const xhr = null;
     if(this.app.token!=null) {
       const xhr = req.clone({
         headers: new HttpHeaders({ 
@@ -41,8 +40,7 @@ export class XhrInterceptor implements HttpInterceptor {
         })
       });
       return next.handle(xhr);
-    }
-    
+    } 
   }
 }
 
@@ -62,6 +60,7 @@ export class XhrInterceptor implements HttpInterceptor {
     MatButtonModule,
     MatCardModule,
     MatInputModule,
+    MatMenuModule,
     MatListModule,
     MatToolbarModule,
     MatSidenavModule
