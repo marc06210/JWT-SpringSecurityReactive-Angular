@@ -1,5 +1,5 @@
 /* AppComponent's private CSS styles */
-h1 {
+  h1 {
     font-size: 1.2em;
     margin-bottom: 0;
   }
@@ -33,6 +33,29 @@ h1 {
     flex: 1 1 auto;
   }
 
+  .mat-header-txt {
+    box-sizing: border-box;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    display: inline-block;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+    margin: 0;
+    min-width: 64px;
+    line-height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    overflow: visible;
+  }
+
   .mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
     box-sizing: border-box;
     position: relative;
@@ -56,4 +79,3 @@ h1 {
     border-radius: 4px;
     overflow: visible;
 }
-

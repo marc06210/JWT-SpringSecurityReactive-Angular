@@ -1,6 +1,6 @@
 
 <mat-toolbar color="primary">
-  <span>Application Title</span>
+  <span><mat-icon>sports_basketball</mat-icon>Application Title</span>
 
   <a class='mat-button' routerLink="/team-list">Teams</a>
 
@@ -10,9 +10,11 @@
   <span class="example-fill-remaining-space"></span>
 
   <span>
+    <div class='mat-header-txt' *ngIf="authenticated()">{{username()}}</div>&nbsp;
     <a class='mat-button' *ngIf="!authenticated()" routerLinkActive="active" routerLink="/login">Login</a>
     <a class='mat-button' *ngIf="authenticated()" (click)="logout()">Logout</a>
   </span>
 </mat-toolbar>
-
+<div class="content" fxFlex>
 <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,20 @@
+
+<div class='docs-header-section'>
+	<h1>Team edit/create!</h1>
+</div>
+<div class='center'>
+	<form class="example-form" role="form" (submit)="save()">
+		
+		<mat-form-field class="example-full-width">
+			<mat-label>Name</mat-label>
+			<input matInput placeholder="What is the team name?" [(ngModel)]="team.name" name="name">
+		</mat-form-field>
+
+		<mat-form-field class="example-full-width">
+			<mat-label>Description</mat-label>
+			<input matInput placeholder="Description" [(ngModel)]="team.description" name="description">
+		</mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="secondary" (click)="gotoList()">cancel</button>
+	</form>
+</div>

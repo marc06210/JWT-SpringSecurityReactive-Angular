@@ -80,6 +80,16 @@ org.springframework.web.cors.reactive.CorsWebFilter.filter()
 
 // init d'un programme angular
 
+npm install -g @angular/cli
+
+ng new my-dream-app
+
+cd my-dream-appng serve
+
+ng g s shared/team
+
+ng g c team
+
 // ajout theme angular material
 
 ng add @angular/material

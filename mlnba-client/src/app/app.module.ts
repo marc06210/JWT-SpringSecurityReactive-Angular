@@ -9,6 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatGridListModule } from '@angular/material/grid-list'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { AppService } from './app.service';
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
+import { TeamEditComponent } from './team-edit/team-edit.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -28,7 +33,7 @@ export class XhrInterceptor implements HttpInterceptor {
       const xhr = req.clone({
         headers: new HttpHeaders({ 
           'X-Requested-With': 'XMLHttpRequest',
-          'Authorization' : 'Bearer '+this.app.token
+          'Authorization' : this.app.token
         })
       });
       return next.handle(xhr);
@@ -49,7 +54,8 @@ export class XhrInterceptor implements HttpInterceptor {
     AppComponent,
     TeamListComponent,
     MemberListComponent,
-    LoginComponent
+    LoginComponent,
+    TeamEditComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +65,12 @@ export class XhrInterceptor implements HttpInterceptor {
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatGridListModule,
+    MatIconModule,
     MatInputModule,
     MatMenuModule,
     MatListModule,
+    MatTableModule,
     MatToolbarModule,
     MatSidenavModule
   ],

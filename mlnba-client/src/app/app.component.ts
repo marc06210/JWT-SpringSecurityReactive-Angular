@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { AppService } from './app.service';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
-import { MatMenuModule } from '@angular/material/menu';
 
 
 @Component({
@@ -12,20 +9,22 @@ import { MatMenuModule } from '@angular/material/menu';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'mlnba-client';
+  title = 'MLNBA';
 
-  constructor(private app: AppService, private http: HttpClient, private router: Router) {
+  constructor(private app: AppService, private router: Router) {
   }
 
   logout() {
-    //this.http.post('logout', {}).subscribe(() => {
-        this.app.authenticated = false;
+        this.app.user = null;
         this.app.token = null;
         this.router.navigateByUrl('/');
-    //});
   }
 
   authenticated() {
-    return this.app.authenticated;
+    return (this.app.user!=null);
+  }
+
+  username(): string {
+    return this.app.user.username;
   }
 }

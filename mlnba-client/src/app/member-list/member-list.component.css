@@ -1,0 +1,14 @@
+.container {
+    max-width: 900px;
+    justify-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    max-width: 80%;
+    padding-left: 0px;
+    padding-top: 0;
+}
+
+table.mat-table {
+    width: 100%;
+}

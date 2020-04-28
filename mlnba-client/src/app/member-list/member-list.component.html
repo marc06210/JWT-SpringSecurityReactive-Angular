@@ -1,11 +1,39 @@
-<mat-card>
-    <mat-card-title>Member List works!</mat-card-title>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let member of members">
-          <!--<img mat-list-avatar src="{{team.giphyUrl}}" alt="{{team.name}}">-->
-          <h3 mat-line>{{member.username}}</h3>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-</mat-card>
+<div class="container" *ngIf='unauthorized'>
+  <div >You are not authorized to view this page.</div>
+</div>
+
+<div class="container" *ngIf='!unauthorized' >
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Username </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="lastname">
+      <th mat-header-cell *matHeaderCellDef> Lastname </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="firstname">
+      <th mat-header-cell *matHeaderCellDef> firstname </th>
+      <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></tr>
+  
+  </table>
+
+  <mat-card *ngIf='!unauthorized'>
+      <mat-card-title>Member List works!</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let member of members">
+            <!--<img mat-list-avatar src="{{team.giphyUrl}}" alt="{{team.name}}">-->
+            <h3 mat-line>{{member.username}}</h3>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+  </mat-card>
+
+</div>
