@@ -12,8 +12,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import com.mgu.mlnba.model.Event;
 import com.mgu.mlnba.model.Member;
 import com.mgu.mlnba.model.Role;
+import com.mgu.mlnba.repository.EventRepository;
 import com.mgu.mlnba.repository.MemberRepository;
 import com.mgu.mlnba.repository.RoleRepository;
 import com.mgu.mlnba.repository.TeamRepository;
@@ -30,7 +32,9 @@ public class MlnbaApplication {
     RoleRepository roleRepo;
     @Autowired
     TeamRepository teamRepo;
-
+    @Autowired
+    EventRepository eventRepo;
+    
     public static void main(String[] args) {
         SpringApplication.run(MlnbaApplication.class, args);
     }
@@ -105,5 +109,20 @@ public class MlnbaApplication {
 //            });
             
     }
+    @EventListener(ApplicationReadyEvent.class)
+    public void createMatch() {
+        eventRepo.deleteAll().block();
+        
+      Flux.range(0, 10)
+          .map(i -> {
+              Event e = new Event();
+              e.setTitle("Match " + i);
+              e.setDescription("match " + i);
+              e.setOpponent("opponent " + i);
+              return e;
+          })
+          .flatMap(eventRepo::save)
+          .subscribe();
+  }
 
 }

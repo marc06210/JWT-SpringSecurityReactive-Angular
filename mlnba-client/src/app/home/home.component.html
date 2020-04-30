@@ -1,0 +1,14 @@
+<mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile [colspan]="tiles[0].cols" [rowspan]="tiles[0].rows" [style.background]="tiles[0].color">
+        <mat-grid-tile-header>Latest news</mat-grid-tile-header>
+        here the fresh news
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="tiles[1].cols" [rowspan]="tiles[1].rows" [style.background]="tiles[1].color">
+        <mat-grid-tile-header>Next matches</mat-grid-tile-header>
+        <app-match-list class='home-match-list'></app-match-list>
+    </mat-grid-tile>
+    <mat-grid-tile class="mat-grid-tile-block" [colspan]="tiles[2].cols" [rowspan]="tiles[2].rows" [style.background]="tiles[2].color">
+        <mat-grid-tile-header>Last results</mat-grid-tile-header>
+        here the last results
+    </mat-grid-tile>
+</mat-grid-list>

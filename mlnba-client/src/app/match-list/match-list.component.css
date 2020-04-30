@@ -1,0 +1,21 @@
+.container {
+    justify-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    padding-left: 0px;
+    padding-top: 0;
+}
+
+table.mat-table {
+    width: 100%;
+    text-align: left;
+}
+
+.mat-row:nth-child(odd){
+    background-color: #c0c0c0;
+    }
+  
+  .mat-row:nth-child(even){
+    background-color:white;
+    }

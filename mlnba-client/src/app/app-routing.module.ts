@@ -4,13 +4,23 @@ import { TeamListComponent } from './team-list/team-list.component';
 import { MemberListComponent } from './member-list/member-list.component';
 import { LoginComponent } from './login/login.component';
 import { TeamEditComponent } from './team-edit/team-edit.component';
+import { HomeComponent } from './home/home.component';
+import { MatchListComponent } from './match-list/match-list.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/team-list', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
   {
     path: 'team-list',
     component: TeamListComponent
+  },
+  {
+    path: 'match-list',
+    component: MatchListComponent
   },
   {
     path: 'team-add',

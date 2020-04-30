@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MemberService } from '../shared/member/member.service';
 import { Member } from '../shared/member/member';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent {
   credentials = {username: '', password: ''};
   error=null;
 
-  constructor(private app: AppService, private memberService: MemberService,private http: HttpClient, private router: Router) {
+  constructor(private app: AppService, private memberService: MemberService,private http: HttpClient, private router: Router,
+    private snack: MatSnackBar) {
   }
 
   login(){
@@ -24,11 +26,14 @@ export class LoginComponent {
       if (res.token) {
           this.error = null;
           this.app.token = res.token;
-          this.router.navigateByUrl('/');
           this.memberService.me().subscribe(
             (response : Member) => {
               this.app.user = response;
               this.app.isAdmin();
+              this.snack.open('Welcome ' + this.app.user.username, null, {
+                duration: 3000
+              });
+              this.router.navigateByUrl('/');
             },
             error => { console.log(error); }
           );

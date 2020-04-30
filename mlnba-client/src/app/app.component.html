@@ -1,10 +1,13 @@
 
 <mat-toolbar color="primary">
-  <span><mat-icon>sports_basketball</mat-icon>Application Title</span>
+  <span><mat-icon>sports_basketball</mat-icon>{{title}}</span>
 
-  <a class='mat-button' routerLink="/team-list">Teams</a>
+  <a class='mat-button' routerLink="/home" routerLinkActive="router-link-active">Home</a>
 
-    <a class='mat-button' routerLink="/member-list">Members</a>
+  <a class='mat-button' routerLink="/team-list" routerLinkActive="router-link-active">Teams</a>
+  <a class='mat-button' routerLink="/match-list" routerLinkActive="router-link-active">Matches</a>
+
+  <a *ngIf="admin()" class='mat-button' routerLink="/member-list" routerLinkActive="router-link-active">Members</a>
 
     <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>
@@ -15,6 +18,16 @@
     <a class='mat-button' *ngIf="authenticated()" (click)="logout()">Logout</a>
   </span>
 </mat-toolbar>
+
+<!-- Side navigation -->
+<div class="sidenav">
+
+  <div class='sidenav-carousel'><app-carousel [slides]="slides"></app-carousel></div>
+  
+</div>
+
+<!-- Page content -->
+
 <div class="content" fxFlex>
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

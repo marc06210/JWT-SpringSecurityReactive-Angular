@@ -30,10 +30,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TeamListComponent implements OnInit {
   teams: Array<any>;
-  displayedColumns: string[] = ['name', 'description', 'action'];
-  dataSource: TeamDataSource;
-  //displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  //dataSource = ELEMENT_DATA;
+  
   constructor(private app: AppService, private teamService: TeamService) { }
 
   ngOnInit() {
@@ -43,11 +40,7 @@ export class TeamListComponent implements OnInit {
   loadTeams() {
     this.teamService.getAll().subscribe(data => {
       this.teams = data;
-      //this.dataSource = data;
     });
-
-    this.dataSource = new TeamDataSource(this.teamService);
-        this.dataSource.loadTeams();
   }
 
   isAdmin(): boolean {

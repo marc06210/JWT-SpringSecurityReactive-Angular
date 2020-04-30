@@ -1,0 +1,31 @@
+
+.container {
+    display: block;
+    height: 500px;
+    width: 100%;
+    padding: 2em;
+  }
+
+  table.mat-table {
+    width: 100%;
+    text-align: left;
+    border: 1px solid black;
+}
+/*
+.mat-grid-tile .mat-figure {
+  display: block;
+}*/
+
+.mat-grid-list {
+  padding-top: 5px;
+}
+
+.home-match-list {
+  width:100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding-top: 90px;
+  /*margin: 5px;
+  border: 1px solid #c0c0c0;*/
+}
+

@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.mgu.mlnba.handler.EventHandler;
 import com.mgu.mlnba.handler.GreetingHandler;
 import com.mgu.mlnba.handler.MemberHandler;
 import com.mgu.mlnba.handler.TeamHandler;
@@ -30,13 +31,18 @@ public class MlnbaRouter {
     
     @Autowired
     private UtilsHandler utilsHandler;
-
+    
+    @Autowired
+    private EventHandler eventHandler;
+    
     @Bean
     public RouterFunction<ServerResponse> routes(GreetingHandler greetingHandler) {
         return RouterFunctions.nest(RequestPredicates.path("/api"), routeMembers())
                 .andNest(RequestPredicates.path("/api"), routeHello(greetingHandler))
                 .andNest(RequestPredicates.path("/api"), routeTeams())
-                .andNest(RequestPredicates.path("/api"), routeUtils());
+                .andNest(RequestPredicates.path("/api"), routeUtils())
+                .andNest(RequestPredicates.path("/api"), routeMatches())
+                ;
     }
     
 //    @Bean
@@ -69,6 +75,12 @@ public class MlnbaRouter {
             .andRoute(DELETE("/team/{id}"), teamHandler::deleteById)
             .andRoute(PUT("/team/{id}"), teamHandler::updateTeamById)
             .andRoute(POST("/team").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeam);
+    }
+    
+    public RouterFunction<ServerResponse> routeMatches() {
+        return RouterFunctions
+            .route(GET("/match")
+                    .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), eventHandler::list);
     }
     
 //    @Bean

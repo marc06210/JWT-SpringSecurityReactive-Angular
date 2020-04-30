@@ -1,7 +1,5 @@
 package com.mgu.mlnba.scripts;
 
-import com.mgu.mlnba.model.Match;
-
 public class AuthentRequest {
     
     protected String autologin;
