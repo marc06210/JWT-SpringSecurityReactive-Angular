@@ -1,6 +1,8 @@
 #!/bin/sh
 
 
+echo ">>> starting deploy.sh"
+
 cd $TRAVIS_BUILD_DIR/mlnba-ss
 docker build -t marc06210/mlnba-ss:latest -t marc06210/mlnba-ss:$BUILD_ID -f ./Dockerfile .
 cd $TRAVIS_BUILD_DIR
