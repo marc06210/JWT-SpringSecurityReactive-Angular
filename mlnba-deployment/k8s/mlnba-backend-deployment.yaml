@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 'contact-backend-deployment'
+  name: 'mlnba-backend-deployment'
 spec:
   replicas: 1
   selector:
