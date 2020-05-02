@@ -1,0 +1,30 @@
+  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'contact-backend-deployment'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: mlnba-backend
+  template:
+    metadata:
+      labels:
+        component: mlnba-backend
+    spec:
+        containers:
+          - name: mlnba-api
+            image: marc06210/mlnba-backend
+            ports:
+              - containerPort: 8080
+            env: 
+              - name: MONGODB_HOST
+                value: mlnba-mango-cluster-ip-service        
+              - name: MONGO_INITDB_ROOT_USERNAME
+                value: root
+              - name: MONGO_INITDB_ROOT_PASSWORD
+                valueFrom: 
+                  secretKeyRef:
+                    name: mangopassword
+                    key:  MANGOPASSWORD

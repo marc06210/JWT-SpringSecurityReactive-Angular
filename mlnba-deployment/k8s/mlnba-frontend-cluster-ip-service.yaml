@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlnba-frontend-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: mlnba-frontend
+  ports:
+    - port: 4200
+      targetPort: 4200

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlnba-frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: mlnba-frontend
+  template:
+    metadata:
+      labels:
+        component: mlnba-frontend
+    spec:
+      containers:
+        - name: mlnba-frontend
+          image: marc06210/mlnba-client
+          ports:
+            - containerPort: 4200

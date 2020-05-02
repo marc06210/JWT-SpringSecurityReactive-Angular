@@ -1,0 +1,36 @@
+language: java
+sudo: required
+
+
+jdk:
+  - openjdk8
+
+
+services:
+  - docker
+env:
+  global:
+    - BUILD_ID=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+before_install:
+  - openssl aes-256-cbc -K $encrypted_248d61edfafe_key -iv $encrypted_248d61edfafe_iv -in service_account.json.enc -out service_account.json -d
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+  - gcloud auth activate-service-account --key-file service_account.json
+  - gcloud config set project delta-vial-275814
+  - gcloud config set compute/zone us-central1-c
+  - gcloud container clusters get-credentials mlnba-k8s
+  
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  
+script:
+  - mvn -f mlnba-ss/pom.xml clean verify -P prod
+  
+  
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master
