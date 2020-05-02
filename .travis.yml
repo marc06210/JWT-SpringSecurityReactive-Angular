@@ -20,7 +20,7 @@ before_install:
   - gcloud auth activate-service-account --key-file service_account.json
   - gcloud config set project delta-vial-275814
   - gcloud config set compute/zone us-central1-c
-  - gcloud container clusters get-credentials mlnba-k8s
+  - gcloud container clusters get-credentials cluster-1
   
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   
