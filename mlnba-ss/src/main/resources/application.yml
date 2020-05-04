@@ -24,7 +24,7 @@ logging:
 spring:
   data:
     mongodb:
-      uri: mongodb://Mlnba:${MANGOPASSWORD}@mlnba-mango-cluster-ip-service/admin
+      uri: mongodb://mlnba:mlnba@mlnba-mango-cluster-ip-service/mlnba
 ---
 spring.profiles: gke
 spring:
