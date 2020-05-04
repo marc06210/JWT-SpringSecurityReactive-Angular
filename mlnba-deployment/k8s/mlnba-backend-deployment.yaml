@@ -21,9 +21,11 @@ spec:
             env: 
               - name: MONGODB_HOST
                 value: mlnba-mango-cluster-ip-service        
-              - name: MONGO_INITDB_ROOT_USERNAME
-                value: root
-              - name: MONGO_INITDB_ROOT_PASSWORD
+              - name: MONGODB_BASE
+                value: mlnba
+              - name: MONGODB_USER
+                value: mlnba
+              - name: MONGODB_USER_PASSWORD
                 valueFrom: 
                   secretKeyRef:
                     name: mangopassword

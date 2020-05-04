@@ -4,23 +4,6 @@ logging:
     org.springframework: INFO
     com.mgu.mlnba.security: DEBUG
     
-#spring:
-#    datasource:
-#        url: jdbc:postgresql://localhost/mlnba
-#        username: mlnba
-#        password: mlnba
-#        driver-class-name: org.postgresql.Driver
-#        
-#    jpa:
-#        show-sql: true
-#        properties:
-#            hibernate:
-#                temp:
-#                    use_jdbc_metadata_defaults: false # to suppress an annoying exception that occurs when JPA (Hibernate) tries to verify PostgreSQL CLOB feature.
-#spring:
-#  data:
-#    mongodb:
-#      uri: mongodb://mlnba:mlnba@localhost/mlnba
 spring:
   data:
     mongodb:
@@ -30,4 +13,4 @@ spring.profiles: gke
 spring:
   data:
     mongodb:
-      uri: mongodb://mlnba:mlnba@${MONGODB_HOST}/mlnba
+      uri: mongodb://${MONGODB_USER}:${MONGODB_USER_PASSWORD}@${MONGODB_HOST}/${MONGODB_BASE}
