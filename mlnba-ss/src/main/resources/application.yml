@@ -30,4 +30,4 @@ spring.profiles: gke
 spring:
   data:
     mongodb:
-      uri: mongodb://mlnba:mlnba@mlnba-mango-cluster-ip-service/mlnba
+      uri: mongodb://mlnba:mlnba@${MONGODB_HOST}/mlnba
