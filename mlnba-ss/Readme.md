@@ -29,7 +29,7 @@ working version
 
 http POST :8080/process_login <<< '{"username": "marc","password": "password"}'
 
-http :8080/api/me Authorization:"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjIiwiYXV0aCI6InJvbGVfYWRtaW4iLCJleHAiOjE1ODc3NTI5NjN9.xiNdQ_9NF7GNDN8yJO4Wi9Vk5a5mUaEQmCRc4sXhyfZJaWJkGd1MfQoQgPdnOhawEdT6zS9KTmwpYGLo1GsOWw"
+http :8080/api/me Authorization:"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjIiwiYXV0aCI6InJvbGVfYWRtaW4iLCJleHAiOjE1ODg2ODk2MjJ9.7qa47u9tOJnh9kRB7bAK_P5zDIBba5RUB9APBg8o0UwrxIeG4_7fOpZO_FD6xktHVKr_Bjx2loD19RGwjQL6tA"
 
 
 
@@ -102,3 +102,90 @@ ng add @angular/cdk
 
 ng serve --proxy-config proxy.conf.json
 
+
+
+
+
+------------
+
+https://medium.com/@raghavendra.pes/deploying-angular-java-spring-boot-application-in-google-kubernetes-engine-gke-b7d96ce084b5
+
+
+
+travis
+
+
+
+*docker run -it -v $(pwd):/app ruby:2.3 sh*
+
+=> $(pwd) mounted on /app
+
+gem install launchy -v 2.4.3
+
+gem install travis -v 1.8.8
+
+cd /app
+
+travis login --org
+
+travis encrypt-file service_account.json -r marc06210/JWT-SpringSecurityReactive-Angular 
+
+**openssl aes-256-cbc -K $encrypted_248d61edfafe_key -iv $encrypted_248d61edfafe_iv -in service_account.json.enc -out service_account.json -d**
+
+
+
+
+
+
+
+----
+
+build and run a docker image
+
+
+
+
+
+
+
+----
+
+
+
+fichiers de déploiement : répertoire 
+
+Attention aux noms des repo docker
+
+
+
+kubectl create secret generic mangopassword --from-literal=MANGOPASSWORD=winona77
+
+
+
+kubectl describe ing
+
+
+
+to have nginx working we must install it first because it is not part of gee
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
+
+
+
+kubectl get pods
+
+kubectl logs mlnba-backend-deployment-6b65d8d8f8-9qkgm
+
+
+
+
+
+
+
+use mlnba
+
+db
+
+db.new_collection.insert({x:'1'})
+
+db.createUser({ user: "mlnba" , pwd: "mlnba", roles: [{role:"readWrite", db: "mlnba"}]})
