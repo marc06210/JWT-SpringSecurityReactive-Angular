@@ -71,7 +71,7 @@ public class MlnbaApplication {
             .subscribe(t -> System.out.println("user: " + t.getUsername()));
     }
     
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void createMarc() {
         
 //        Member m2 = memberRepo.findByUsername("marc").block();
