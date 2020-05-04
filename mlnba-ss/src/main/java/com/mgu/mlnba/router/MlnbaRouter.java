@@ -35,7 +35,7 @@ public class MlnbaRouter {
     @Autowired
     private EventHandler eventHandler;
     
-    @Bean
+//    @Bean
     public RouterFunction<ServerResponse> routes(GreetingHandler greetingHandler) {
         return RouterFunctions.nest(RequestPredicates.path("/api"), routeMembers())
                 .andNest(RequestPredicates.path("/api"), routeHello(greetingHandler))
@@ -45,14 +45,14 @@ public class MlnbaRouter {
                 ;
     }
     
-//    @Bean
+    @Bean
     public RouterFunction<ServerResponse> routeHello(GreetingHandler greetingHandler) {
         return RouterFunctions
             .route(GET("/hello")
                     .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), greetingHandler::hello);
     }
     
-//    @Bean
+    @Bean
     public RouterFunction<ServerResponse> routeMembers() {
         return RouterFunctions
             .route(GET("/me"), personHandler::me)
@@ -66,7 +66,7 @@ public class MlnbaRouter {
             .andRoute(PUT("/member/{id}/pwd").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), personHandler::updatePassword);
     }
     
-//    @Bean
+    @Bean
     public RouterFunction<ServerResponse> routeTeams() {
         return RouterFunctions
             .route(GET("/team")
@@ -83,7 +83,7 @@ public class MlnbaRouter {
                     .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), eventHandler::list);
     }
     
-//    @Bean
+    @Bean
     public RouterFunction<ServerResponse> routeUtils() {
         return RouterFunctions
             .route(GET("/admin/role"), utilsHandler::listRoles);

@@ -71,11 +71,11 @@ public class MlnbaApplication {
             .subscribe(t -> System.out.println("user: " + t.getUsername()));
     }
     
-//    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void createMarc() {
         
-//        Member m2 = memberRepo.findByUsername("marc").block();
-//        if(m2==null) {
+        Member m2 = memberRepo.findByUsername("marc").block();
+        if(m2==null) {
             memberRepo.deleteAll().block();
             roleRepo.deleteAll().block();
             
@@ -92,7 +92,7 @@ public class MlnbaApplication {
                     m.setRoles(Arrays.asList(r));
                     memberRepo.save(m).block();
                 });
-//        }
+        }
         System.out.println("Application Ready Event is successfully Started");
         memberRepo.findAll().subscribe(System.out::println);
         
@@ -127,5 +127,13 @@ public class MlnbaApplication {
           .flatMap(eventRepo::save)
           .subscribe();
   }
+    
+//    @EventListener(ApplicationReadyEvent.class)
+    public void deleteAll() {
+        eventRepo.deleteAll().block();
+        memberRepo.deleteAll().block();
+        roleRepo.deleteAll().block();
+        teamRepo.deleteAll().block();
+    }
 
 }
