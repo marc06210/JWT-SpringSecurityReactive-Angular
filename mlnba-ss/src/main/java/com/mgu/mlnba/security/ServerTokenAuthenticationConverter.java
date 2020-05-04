@@ -22,7 +22,7 @@ public class ServerTokenAuthenticationConverter implements ServerAuthenticationC
     }
     @Override
     public Mono<Authentication> convert(ServerWebExchange serverWebExchange) {
-        logger.debug("convert()");
+        logger.debug("convert({} - {})", serverWebExchange.getRequest().getMethod(), serverWebExchange.getRequest().getPath());
         return Mono.justOrEmpty(serverWebExchange)
                 .map(SecurityUtils::getTokenFromRequest)
                 .filter(Objects::nonNull)
