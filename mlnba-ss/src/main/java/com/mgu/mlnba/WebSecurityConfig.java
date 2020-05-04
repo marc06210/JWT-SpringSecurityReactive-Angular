@@ -60,7 +60,7 @@ public class WebSecurityConfig {
             .and()
                 .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
                 .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION) // this to avoid the popup
-                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+//                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
             ;
         http.httpBasic().disable()
             .formLogin().disable()
