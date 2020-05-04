@@ -51,7 +51,7 @@ public class WebSecurityConfig {
         
         http
             .authorizeExchange()
-                .pathMatchers(HttpMethod.POST, "/api/login").permitAll()
+                .pathMatchers(HttpMethod.POST, "/login").permitAll()
                 .pathMatchers(HttpMethod.DELETE).authenticated()
                 .pathMatchers(HttpMethod.POST).authenticated()
                 .pathMatchers(HttpMethod.PUT).authenticated()
