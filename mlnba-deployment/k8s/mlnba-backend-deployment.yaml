@@ -28,5 +28,5 @@ spec:
               - name: MONGODB_USER_PASSWORD
                 valueFrom: 
                   secretKeyRef:
-                    name: mangopassword
+                    name: mango-user-password
                     key:  MANGOUSERPASSWORD
