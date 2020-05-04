@@ -59,7 +59,7 @@ public class MlnbaApplication {
             return new CorsWebFilter(source);
     }
     
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void list() {
         teamRepo.findAll()
             .subscribe(t -> System.out.println("team: " + t.getName()));
@@ -112,7 +112,7 @@ public class MlnbaApplication {
 //            });
             
     }
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void createMatch() {
         eventRepo.deleteAll().block();
         
