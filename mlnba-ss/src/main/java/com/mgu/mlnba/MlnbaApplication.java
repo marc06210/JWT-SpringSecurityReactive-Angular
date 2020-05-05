@@ -1,6 +1,8 @@
 package com.mgu.mlnba;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +17,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import com.mgu.mlnba.model.Event;
 import com.mgu.mlnba.model.Member;
 import com.mgu.mlnba.model.Role;
+import com.mgu.mlnba.model.Team;
+import com.mgu.mlnba.model.Training;
 import com.mgu.mlnba.repository.EventRepository;
 import com.mgu.mlnba.repository.MemberRepository;
 import com.mgu.mlnba.repository.RoleRepository;
@@ -126,6 +130,27 @@ public class MlnbaApplication {
           })
           .flatMap(eventRepo::save)
           .subscribe();
+  }
+    //@EventListener(ApplicationReadyEvent.class)
+    public void createTeam() {
+        List<Training> trainings = new ArrayList<>();
+        Training tr = new Training();
+        tr.setDay("Mardi");
+        tr.setFromTime("17h15");
+        tr.setToTime("18h45");
+        trainings.add(tr);
+        tr = new Training();
+        tr.setDay("Jeudi");
+        tr.setFromTime("17h30");
+        tr.setToTime("19h00");
+        trainings.add(tr);
+        
+        Team t = new Team();
+        t.setName("U11F");
+        t.setDescription("Filles nées en 2009 et 2010");
+        t.setTrainings(trainings);
+        
+        teamRepo.save(t).subscribe();
   }
     
 //    @EventListener(ApplicationReadyEvent.class)

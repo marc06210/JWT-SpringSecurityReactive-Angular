@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from './team';
+import { Training } from './training';
 
 
 @Injectable({
@@ -30,5 +31,9 @@ export class TeamService {
     } else {
       return this.http.post('/api/team', team);
     }
+  }
+
+  addTraining(idTeam:string, training: Training) {
+    return this.http.post('/api/team/'+idTeam+'/training', training);
   }
 }

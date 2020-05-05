@@ -40,6 +40,7 @@ export class TeamListComponent implements OnInit {
   loadTeams() {
     this.teamService.getAll().subscribe(data => {
       this.teams = data;
+      console.log(this.teams);
     });
   }
 

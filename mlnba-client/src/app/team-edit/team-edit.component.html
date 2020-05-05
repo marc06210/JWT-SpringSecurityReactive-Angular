@@ -1,6 +1,6 @@
 
 <div class='docs-header-section'>
-	<h1>Team edit/create!</h1>
+	<h1>Equipe création/édition</h1>
 </div>
 <div class='center'>
 	<form class="example-form" role="form" (submit)="save()">
@@ -17,4 +17,56 @@
         <button mat-raised-button color="primary" type="submit">Save</button>
         <button mat-raised-button color="secondary" (click)="gotoList()">cancel</button>
 	</form>
+
+	<br/>
+</div>
+<div class="container" >
+	<div class='docs-header-section'>
+		<u>Entrainements</u>
+	</div>
+	<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+		<ng-container matColumnDef="day">
+		  	<th mat-header-cell *matHeaderCellDef> Jour </th>
+		  	<td mat-cell *matCellDef="let element">
+			  <mat-label *ngIf="!isNew(element)">{{element.day}}</mat-label>
+			  <input *ngIf="isNew(element)" matInput placeholder="Jour" [(ngModel)]="element.day" name="element.day">
+			</td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="fromTime">
+			<th mat-header-cell *matHeaderCellDef> Heure début </th>
+			<td mat-cell *matCellDef="let element">
+				<mat-label *ngIf="!isNew(element)">{{element.fromTime}}</mat-label>
+				<input *ngIf="isNew(element)" matInput placeholder="Heure début" [(ngModel)]="element.fromTime" name="element.fromTime">
+			</td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="toTime">
+		  <th mat-header-cell *matHeaderCellDef> Heure fin </th>
+		  <td mat-cell *matCellDef="let element">
+			<mat-label *ngIf="!isNew(element)">{{element.toTime}}</mat-label>
+			<input *ngIf="isNew(element)" matInput placeholder="Heure fin" [(ngModel)]="element.toTime" name="element.toTime">
+		  </td>
+		</ng-container>
+
+		<ng-container matColumnDef="action">
+			<th mat-header-cell *matHeaderCellDef>
+				<button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+				  <mat-icon (click)="addTraining()">plus_one</mat-icon>
+				</button>
+			</th>
+			<td mat-cell *matCellDef="let element; let i = index;">
+			  <button *ngIf="!isNew(element)" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+				<mat-icon (click)="onDeleteRow(i)">delete</mat-icon>
+			  </button>
+			  <button *ngIf="isNew(element) && isFull(element)" mat-mini-fab color="accent" aria-label="Example icon button with a save icon">
+				<mat-icon (click)="onSaveRow(element)">save_alt</mat-icon>
+			  </button>
+			</td>
+		  </ng-container>
+	  
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	  
+	  </table>
 </div>

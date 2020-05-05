@@ -17,6 +17,10 @@ public class Team {
     protected String season;
 
     protected String description;
+    
+//    @DBRef
+    protected List<Training> trainings = new ArrayList<>();
+
 
     // @Builder.Default()
     @DBRef
@@ -60,6 +64,14 @@ public class Team {
 
     public void setMembers(List<Member> members) {
         this.members = members;
+    }
+
+    public List<Training> getTrainings() {
+        return trainings;
+    }
+
+    public void setTrainings(List<Training> trainings) {
+        this.trainings = trainings;
     }
 
 }

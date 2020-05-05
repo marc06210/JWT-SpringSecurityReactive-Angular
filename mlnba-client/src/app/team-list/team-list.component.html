@@ -23,9 +23,8 @@
                   <mat-card-subtitle>{{team.description}} | {{team.name}}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
-                  <p>
-                      Ici on pourrait mettre les horaires des entrainements
-                  </p>
+                  <p>Entrainements</p>
+                  <p *ngFor="let training of team.trainings">{{training.day}}: {{training.fromTime}} - {{training.toTime}}</p>
               </mat-card-content>
               <mat-card-actions *ngIf="isAdmin()">
                   <button mat-raised-button color="primary" [routerLink]="['/team-edit', team.id]"><mat-icon>edit</mat-icon></button>

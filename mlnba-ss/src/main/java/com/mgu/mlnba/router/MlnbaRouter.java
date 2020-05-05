@@ -74,7 +74,9 @@ public class MlnbaRouter {
             .andRoute(GET("/team/{id}"), teamHandler::getById)
             .andRoute(DELETE("/team/{id}"), teamHandler::deleteById)
             .andRoute(PUT("/team/{id}"), teamHandler::updateTeamById)
-            .andRoute(POST("/team").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeam);
+            .andRoute(POST("/team").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeam)
+            .andRoute(POST("/team/{id}/training").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::setTrainings)
+            ;
     }
     
     public RouterFunction<ServerResponse> routeMatches() {
