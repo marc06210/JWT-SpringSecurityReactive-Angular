@@ -25,7 +25,7 @@ export class AppService {
       return false;
     }
 
-    return this.user.roles.filter((auth) => !auth.authority.localeCompare(role)).length>0;
+    return this.user.roles.filter((auth) => !auth.localeCompare(role)).length>0;
   }
 
 }

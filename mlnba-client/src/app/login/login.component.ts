@@ -27,8 +27,14 @@ export class LoginComponent {
           this.error = null;
           this.app.token = res.token;
           this.memberService.me().subscribe(
-            (response : Member) => {
-              this.app.user = response;
+            (response : any) => {
+              var m: Member = new Member();
+              m.username = response.username;
+              m.roles = [];
+              response.authorities.forEach(element => {
+                m.roles.push(element.authority);
+              });
+              this.app.user = m;
               this.app.isAdmin();
               this.snack.open('Welcome ' + this.app.user.username, null, {
                 duration: 3000

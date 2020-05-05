@@ -4,7 +4,7 @@ export class Member {
     lastname: string;
     firstname: string;
     password: string;
-    roles: RoleData[];
+    roles: string[];
 }
 
 export interface RoleData {
