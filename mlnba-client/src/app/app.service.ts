@@ -21,11 +21,11 @@ export class AppService {
       return false;
     }
 
-    if(this.user.authorities==null) {
+    if(this.user.roles==null) {
       return false;
     }
 
-    return this.user.authorities.filter((auth) => !auth.authority.localeCompare(role)).length>0;
+    return this.user.roles.filter((auth) => !auth.authority.localeCompare(role)).length>0;
   }
 
 }
