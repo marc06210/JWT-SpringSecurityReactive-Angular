@@ -16,16 +16,18 @@ import { MatGridListModule } from '@angular/material/grid-list'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatSelectModule } from '@angular/material/select'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MemberListComponent } from './member-list/member-list.component';
 import { LoginComponent } from './login/login.component';
 import { AppService } from './app.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { TeamEditComponent } from './team-edit/team-edit.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { HomeComponent } from './home/home.component';
 import { MatchListComponent } from './match-list/match-list.component';
+import { MemberEditComponent } from './member-edit/member-edit.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -62,7 +64,8 @@ export class XhrInterceptor implements HttpInterceptor {
     TeamEditComponent,
     CarouselComponent,
     HomeComponent,
-    MatchListComponent
+    MatchListComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -75,12 +78,14 @@ export class XhrInterceptor implements HttpInterceptor {
     MatGridListModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatMenuModule,
     MatListModule,
     MatTableModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    ReactiveFormsModule
   ],
   providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent]

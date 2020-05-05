@@ -4,18 +4,18 @@
 
   <a class='mat-button' routerLink="/home" routerLinkActive="router-link-active">Home</a>
 
-  <a class='mat-button' routerLink="/team-list" routerLinkActive="router-link-active">Teams</a>
+  <a class='mat-button' routerLink="/team-list" routerLinkActive="router-link-active">Equipes</a>
   <a class='mat-button' routerLink="/match-list" routerLinkActive="router-link-active">Matches</a>
 
-  <a *ngIf="admin()" class='mat-button' routerLink="/member-list" routerLinkActive="router-link-active">Members</a>
+  <a *ngIf="admin()" class='mat-button' routerLink="/member-list" routerLinkActive="router-link-active">Membres</a>
 
     <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>
 
   <span>
-    <div class='mat-header-txt' *ngIf="authenticated()">{{username()}}</div>&nbsp;
-    <a class='mat-button' *ngIf="!authenticated()" routerLinkActive="active" routerLink="/login">Login</a>
-    <a class='mat-button' *ngIf="authenticated()" (click)="logout()">Logout</a>
+    <mat-label class='mat-header-txt' *ngIf="authenticated()">Bonjour {{username()}}</mat-label>
+    <a class='mat-button' *ngIf="!authenticated()" routerLinkActive="active" routerLink="/login">Se connecter</a>
+    <a class='mat-button' *ngIf="authenticated()" (click)="logout()">Quitter</a>
   </span>
 </mat-toolbar>
 

@@ -92,16 +92,33 @@ public class MemberHandler {
     
     
     public Mono<ServerResponse> createPerson(ServerRequest request) {
-        Mono<Member> person = request.bodyToMono(LoginUser.class).map(p -> {
+        Mono<Member> person = request.bodyToMono(Member.class)
+                .map(m -> {
+                    m.setPassword(encoder.encode(m.getPassword()));
+                    return m;
+                })
+                ;/*.map(p -> {
             Member m = new Member();
             m.setUsername(p.getUsername());
             m.setLastname(p.getLastname());
             m.setFirstname(p.getFirstname());
             m.setPassword(encoder.encode("password"));
+            
+//            Role
+            
+            //p.getRoles().forEach(r -> System.out.println(" >>> role: " + r));
+            p.getRoles().stream()
+                .map(s -> {
+                    Role r = new Role();
+                    r.setId(s);
+                    return r;
+                })
+                .forEach(m.getRoles()::add);
             return m;
-        });
+        });*/
         return ServerResponse.ok().body(personRepo.insert(person).map(LoginUser::new), LoginUser.class);
     }
+    
     
     public Mono<ServerResponse> updatePassword(ServerRequest request) {
         Mono<Member> result = personRepo.findById(request.pathVariable("id"))

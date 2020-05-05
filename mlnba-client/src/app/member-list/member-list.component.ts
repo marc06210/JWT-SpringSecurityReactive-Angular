@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MemberService } from '../shared/member/member.service';
 import { MemberDataSource } from '../shared/member/MemberDataSource';
+import { FormControl } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-member-list',
@@ -8,11 +10,15 @@ import { MemberDataSource } from '../shared/member/MemberDataSource';
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent implements OnInit {
-
+  
   unauthorized = false;
   members: Array<any>;
 
-  displayedColumns: string[] = ['username', 'lastname', 'firstname'];
+  toppings = new FormControl();
+
+  rolesList: string[] = ["role_admin", "role_player", "role_coach"];
+
+  displayedColumns: string[] = ['username', 'lastname', 'firstname', 'roles', 'action'];
   dataSource: MemberDataSource;
 
   constructor(private memberService: MemberService) { }
@@ -32,7 +38,9 @@ export class MemberListComponent implements OnInit {
     this.dataSource.loadMembers(this);
   }
 
-  onRowClicked(row) {
-    console.log('Row clicked: ', row);
+  onDeleteRow(row) {
+    console.log('delete: ' + row);
+    this.memberService.delete(row).subscribe(response => this.loadMembers());
   }
+
 }

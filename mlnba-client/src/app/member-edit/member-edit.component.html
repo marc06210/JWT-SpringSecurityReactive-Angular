@@ -1,0 +1,41 @@
+<div class='docs-header-section'>
+    <h1 ><mat-label *ngIf="isNew">Créer un membre</mat-label>
+    <mat-label *ngIf="!isNew">Editer un membre</mat-label></h1>
+</div>
+
+<div class='center'>
+	<form class="example-form" role="form" (submit)="save()">
+        
+        <mat-form-field class="example-full-width">
+			<mat-label>Nom d'utilisateur</mat-label>
+			<input matInput placeholder="Nom d'utilisateur?" [(ngModel)]="member.username" name="username">
+        </mat-form-field>
+        
+		<mat-form-field class="example-full-width">
+			<mat-label>Nom de famille</mat-label>
+			<input matInput placeholder="Nom du membre?" [(ngModel)]="member.lastname" name="lastname">
+		</mat-form-field>
+
+		<mat-form-field class="example-full-width">
+			<mat-label>Prénom</mat-label>
+			<input matInput placeholder="Prénom" [(ngModel)]="member.firstname" name="firstname">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" *ngIf="isNew">
+			<mat-label>Mot de passe</mat-label>
+			<input matInput placeholder="Mot de passe" [(ngModel)]="member.password" name="password">
+        </mat-form-field>
+        
+        <mat-form-field class="example-full-width">
+            <mat-label>Liste des profiles</mat-label>
+            <mat-select [(ngModel)]="member.roles" multiple name="roles">
+              <mat-option *ngFor="let role of rolesList" [value]="role">{{role}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="secondary" (click)="gotoList()">cancel</button>
+	</form>
+
+	<br/>
+</div>

@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { TeamEditComponent } from './team-edit/team-edit.component';
 import { HomeComponent } from './home/home.component';
 import { MatchListComponent } from './match-list/match-list.component';
+import { MemberEditComponent } from './member-edit/member-edit.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,14 @@ const routes: Routes = [
   {
     path: 'member-list',
     component: MemberListComponent
+  },
+  {
+    path: 'member-add',
+    component: MemberEditComponent
+  },
+  {
+    path: 'member-edit/:id',
+    component: MemberEditComponent
   },
   {
     path: 'login',

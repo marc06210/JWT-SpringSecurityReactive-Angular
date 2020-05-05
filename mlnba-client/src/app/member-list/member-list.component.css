@@ -13,3 +13,8 @@ table.mat-table {
     width: 100%;
     text-align: left;
 }
+
+.example-additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+  }
