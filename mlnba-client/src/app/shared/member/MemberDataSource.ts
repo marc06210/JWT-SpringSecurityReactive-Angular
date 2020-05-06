@@ -2,6 +2,7 @@ import { Member } from './member';
 import { DataSource, CollectionViewer } from '@angular/cdk/collections';
 import { MemberService } from './member.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 
 export class MemberDataSource implements DataSource<Member> {
 

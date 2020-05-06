@@ -7,6 +7,7 @@ import { TeamEditComponent } from './team-edit/team-edit.component';
 import { HomeComponent } from './home/home.component';
 import { MatchListComponent } from './match-list/match-list.component';
 import { MemberEditComponent } from './member-edit/member-edit.component';
+import { NewsComponent } from './admin/news/news.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'news',
+    component: NewsComponent
   }
 ];
 

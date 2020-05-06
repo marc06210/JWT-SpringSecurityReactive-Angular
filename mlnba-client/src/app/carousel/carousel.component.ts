@@ -18,6 +18,7 @@ import { Subscription, Observable, timer } from 'rxjs';
 export class CarouselComponent {
   @Input() slides: Slide[];
   @Input() showButton: boolean = false;
+  @Input() timer: number = 10000;
 
   currentSlide = 0;
 
@@ -41,7 +42,7 @@ export class CarouselComponent {
   }
 
   sub() {
-    const source = timer(10000, 10000);
+    const source = timer(this.timer, this.timer);
     this.subscription = source.subscribe(val => this.onNextClick());
   }
 

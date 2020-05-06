@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import {MatSortModule} from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -29,6 +30,9 @@ import { HomeComponent } from './home/home.component';
 import { MatchListComponent } from './match-list/match-list.component';
 import { MemberEditComponent } from './member-edit/member-edit.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { NewsComponent } from './admin/news/news.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -67,7 +71,8 @@ export class XhrInterceptor implements HttpInterceptor {
     HomeComponent,
     MatchListComponent,
     MemberEditComponent,
-   ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
@@ -82,13 +87,15 @@ export class XhrInterceptor implements HttpInterceptor {
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatSortModule,
     MatSnackBarModule,
     MatMenuModule,
     MatListModule,
     MatTableModule,
     MatToolbarModule,
     MatSidenavModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CKEditorModule
   ],
   providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent]

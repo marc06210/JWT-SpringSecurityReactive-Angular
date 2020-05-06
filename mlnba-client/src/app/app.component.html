@@ -7,7 +7,10 @@
   <a class='mat-button' routerLink="/team-list" routerLinkActive="router-link-active">Equipes</a>
   <a class='mat-button' routerLink="/match-list" routerLinkActive="router-link-active">Matches</a>
 
+  
   <a *ngIf="admin()" class='mat-button' routerLink="/member-list" routerLinkActive="router-link-active">Membres</a>
+
+  <a class='mat-button' routerLink="/news" routerLinkActive="router-link-active">News</a>
 
     <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>
@@ -22,7 +25,7 @@
 <!-- Side navigation -->
 <div class="sidenav">
 
-  <div class='sidenav-carousel'><app-carousel [slides]="slides"></app-carousel></div>
+  <div class='sidenav-carousel'><app-carousel [slides]="slides" [timer]="5000"></app-carousel></div>
   
 </div>
 

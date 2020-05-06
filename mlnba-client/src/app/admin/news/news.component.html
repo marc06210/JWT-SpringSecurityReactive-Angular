@@ -1,0 +1,8 @@
+<p>news works!</p>
+
+<button mat-mini-fab color="accent" aria-label="Save the content">
+    <mat-icon (click)="saveContent()">save_alt</mat-icon>
+</button>
+
+<ckeditor [editor]="Editor" [(ngModel)]="model.editorData"></ckeditor>
+
