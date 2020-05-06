@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TeamService } from '../shared/team/team.service';
 import { AppService } from '../app.service';
-import { TeamDataSource } from '../shared/team/TeamDataSource';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { Team } from '../shared/team/team';
 
 export interface PeriodicElement {
   name: string;
@@ -31,7 +33,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class TeamListComponent implements OnInit {
   teams: Array<any>;
   
-  constructor(private app: AppService, private teamService: TeamService) { }
+  constructor(private app: AppService, private teamService: TeamService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadTeams();
@@ -48,9 +50,19 @@ export class TeamListComponent implements OnInit {
     return this.app.isAdmin();
   }
 
-  delete(id:string) {
-    console.log('delete ' + id);
-    this.teamService.delete(id).subscribe(response => this.loadTeams());
+  delete(team: Team) {
+    console.log('delete ' + team.id + "/" + team.name);
+    //
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: "Voulez vous vraiment supprimer l'équipe " + team.name + "?"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.teamService.delete(team.id).subscribe(response => this.loadTeams());
+      }
+    });
   }
 
   onRowClicked(row) {

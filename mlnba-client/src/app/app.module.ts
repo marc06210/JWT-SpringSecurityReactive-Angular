@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list'
@@ -28,6 +28,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { HomeComponent } from './home/home.component';
 import { MatchListComponent } from './match-list/match-list.component';
 import { MemberEditComponent } from './member-edit/member-edit.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -65,7 +66,8 @@ export class XhrInterceptor implements HttpInterceptor {
     CarouselComponent,
     HomeComponent,
     MatchListComponent,
-    MemberEditComponent
+    MemberEditComponent,
+   ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +77,7 @@ export class XhrInterceptor implements HttpInterceptor {
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
