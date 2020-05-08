@@ -92,4 +92,8 @@ export class MemberListComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
+  hasRole(member: Member, role: string) {
+    return member.roles.includes(role);
+  }
+
 }

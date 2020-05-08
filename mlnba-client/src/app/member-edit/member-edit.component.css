@@ -38,3 +38,31 @@ table.mat-table {
   width: 100%;
   text-align: left;
 }
+
+.example-h2 {
+  margin: 10px;
+}
+
+.section-role {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+  width: 500px;
+}
+
+.mat-cb-role {
+  width: 100%;
+  display: block;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+img.mat-role {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+  margin-left: 5px;
+}

@@ -7,6 +7,7 @@ import { HttpClientModule, HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTER
 import { TeamListComponent } from './team-list/team-list.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -82,6 +83,7 @@ export class XhrInterceptor implements HttpInterceptor {
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatGridListModule,
     MatIconModule,

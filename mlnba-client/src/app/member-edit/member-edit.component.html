@@ -1,3 +1,5 @@
+
+
 <div class='docs-header-section'>
     <h1 ><mat-label *ngIf="isNew">Créer un membre</mat-label>
     <mat-label *ngIf="!isNew">Editer un membre</mat-label></h1>
@@ -20,18 +22,24 @@
 			<mat-label>Prénom</mat-label>
 			<input matInput placeholder="Prénom" [(ngModel)]="member.firstname" name="firstname">
         </mat-form-field>
-
         <mat-form-field class="example-full-width" *ngIf="isNew">
-			<mat-label>Mot de passe</mat-label>
+      <mat-label>Mot de passe</mat-label>
+      
 			<input matInput placeholder="Mot de passe" [(ngModel)]="member.password" name="password">
         </mat-form-field>
-        
+        <!--
         <mat-form-field class="example-full-width">
             <mat-label>Liste des profiles</mat-label>
             <mat-select [(ngModel)]="member.roles" multiple name="roles">
               <mat-option *ngFor="let role of rolesList" [value]="role">{{role}}</mat-option>
             </mat-select>
           </mat-form-field>
+        -->
+          <section class="example-full-width">
+            <mat-checkbox class="mat-cb-role" *ngFor="let role of rolesList" name="{{role}}" [checked]="hasRole(role)" (change)="changeValue($event)">
+              <img class="mat-role" src="assets/ico/{{getIcoName(role)}}.png"/>
+            </mat-checkbox>
+          </section>
 
         <button mat-raised-button color="primary" type="submit">Save</button>
         <button mat-raised-button color="secondary" (click)="gotoList()">cancel</button>

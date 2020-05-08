@@ -12,7 +12,7 @@ export class AppService {
   }
 
   isAdmin() : boolean {
-    var result: boolean = this.hasRole("role_admin");
+    var result: boolean = this.hasRole("role_cto");
     return result;
   }
 
@@ -20,7 +20,6 @@ export class AppService {
     if(this.user==null) {
       return false;
     }
-
     if(this.user.roles==null) {
       return false;
     }

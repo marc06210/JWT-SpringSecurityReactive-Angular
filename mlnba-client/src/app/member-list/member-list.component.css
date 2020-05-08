@@ -18,3 +18,10 @@ table.mat-table {
     opacity: 0.75;
     font-size: 0.75em;
   }
+
+img.mat-role {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
