@@ -59,17 +59,25 @@ public class MlnbaApplication {
         return new CorsWebFilter(source);
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
+    //@EventListener(ApplicationReadyEvent.class)
     public void list() {
+        System.out.println(">>> list()");
         teamGroupRepo.findAll().subscribe(t -> System.out.println("team: " + t.getId()));
 
         roleRepo.findAll().subscribe(t -> System.out.println("role: " + t.getAuthority()));
 
-        memberRepo.findAll().subscribe(t -> System.out.println("user: " + t.getUsername()));
+        memberRepo.findAll().subscribe(t -> System.out.println("user: " + t.getUsername() + '-' + t.getPassword()));
+        System.out.println(">>>" + PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("password"));
     }
     
     @EventListener(ApplicationReadyEvent.class)
     public void createUser() {
+        
+        roleRepo.deleteAll().block();
+        String[] roles = { "cto", "coach", "player_female", "player_male", "otm", "referee" };
+        Flux.fromArray(roles).map(r -> new Role("role_" + r)).flatMap(roleRepo::save).then().block();
+        
+        System.out.println("createUser");
         memberRepo.deleteAll().block();
         
         Member m = new Member();
@@ -79,8 +87,12 @@ public class MlnbaApplication {
         m.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("password"));
 
         roleRepo.findById("role_cto").subscribe(r -> {
+            System.out.println(">>> creating user");
             m.setRoles(Arrays.asList(r));
-            memberRepo.save(m).block();
+            memberRepo.save(m).subscribe(r2 -> {
+                    System.out.println("done");
+                    }
+            );
         });
     }
 
@@ -121,8 +133,9 @@ public class MlnbaApplication {
 
     public void createRoles() {
         // Flux.f
+        roleRepo.deleteAll().block();
         String[] roles = { "cto", "coach", "player_female", "player_male", "otm", "referee" };
-        Flux.fromArray(roles).map(r -> new Role("role_" + r)).flatMap(roleRepo::save).subscribe();
+        Flux.fromArray(roles).map(r -> new Role("role_" + r)).flatMap(roleRepo::save).then().block();
     }
 
     // @EventListener(ApplicationReadyEvent.class)
