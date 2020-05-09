@@ -3,7 +3,7 @@ import { TeamService } from '../shared/team/team.service';
 import { AppService } from '../app.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
-import { Team } from '../shared/team/team';
+import { Team, TeamGroup } from '../shared/team/team';
 
 export interface PeriodicElement {
   name: string;
@@ -32,6 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TeamListComponent implements OnInit {
   teams: Array<any>;
+  teamGroups: Array<TeamGroup>;
   
   constructor(private app: AppService, private teamService: TeamService, public dialog: MatDialog) { }
 
@@ -40,10 +41,23 @@ export class TeamListComponent implements OnInit {
   }
 
   loadTeams() {
+    /*
     this.teamService.getAll().subscribe(data => {
       this.teams = data;
       console.log(this.teams);
-    });
+    });*/
+
+    this.teamService.getAllCategories().subscribe( tg => {
+      this.teamGroups = tg;
+    })
+  }
+
+  getName(tg: TeamGroup) {
+    let suffix = ' M';
+    if('FEMALE'.localeCompare(tg.gender)==0) {
+      suffix = ' F';
+    }
+    return tg.name + suffix;
   }
 
   isAdmin(): boolean {
@@ -52,8 +66,7 @@ export class TeamListComponent implements OnInit {
 
   delete(team: Team) {
     console.log('delete ' + team.id + "/" + team.name);
-    //
-
+ 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       data: "Voulez vous vraiment supprimer l'équipe " + team.name + "?"

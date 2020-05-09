@@ -1,16 +1,17 @@
 <div class='docs-header-section'>
-	<h1>Teams</h1>
+	<h1>Equipes</h1>
 </div>
 
 <div class="container">
-  <mat-card class="example-card">
+<!--
+    <mat-card class="example-card">
     
       <mat-card-header>
         <button *ngIf="isAdmin()" mat-fab color="primary" [routerLink]="['/team-add']"><mat-icon>plus_one</mat-icon></button>
 
-          <!--<mat-form-field class="example-full-width">
+          --<mat-form-field class="example-full-width">
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-          </mat-form-field>-->
+          </mat-form-field>--
       </mat-card-header>
 
       <mat-card-content class="grid">
@@ -35,6 +36,44 @@
 
   </mat-card>
 
+  -->
+
+  <button *ngIf="isAdmin()" mat-fab color="primary" [routerLink]="['/team-add']"><mat-icon>plus_one</mat-icon></button>
+
+  <mat-accordion class="accordion" *ngFor="let teamGroup of teamGroups">
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{getName(teamGroup)}}
+        </mat-panel-title>
+        
+      </mat-expansion-panel-header>
+
+      <mat-action-row *ngIf="isAdmin()">
+        <button mat-button color="primary" [routerLink]="['/team-edit', teamGroup.id]"><mat-icon>edit</mat-icon></button>
+        <button mat-button color="warn" (click)="delete(teamGroup)"><mat-icon>delete</mat-icon></button>
+      </mat-action-row>
+      
+      <mat-card-content class="grid">
+        <mat-card class="example-card-two" *ngFor="let team of teamGroup.teams">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>{{team.name}}</mat-card-title>
+                <!--<mat-card-subtitle>{{team.description}} | {{team.name}}</mat-card-subtitle>-->
+            </mat-card-header>
+            <mat-card-content>
+                <p>Entrainements</p>
+                <p *ngFor="let training of team.trainings">{{training.day}}: {{training.fromTime}} - {{training.toTime}}</p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="isAdmin()">
+            </mat-card-actions>
+        </mat-card>
+    
+    </mat-card-content>
+    </mat-expansion-panel>
+
+    
+  </mat-accordion>
 </div>
 
 

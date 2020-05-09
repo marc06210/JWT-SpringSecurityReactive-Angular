@@ -6,5 +6,14 @@ export class Team {
     season: string;
     description: string;
     members: Member[];
-    trainings: Training[];
+    trainings: Training[] = [];
   }
+
+export class TeamGroup {
+  id: string;
+  name: string;
+  description: string;
+  gender: string;
+
+  teams: Team[];
+}

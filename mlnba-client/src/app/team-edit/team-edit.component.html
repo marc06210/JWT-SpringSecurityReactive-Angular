@@ -1,72 +1,146 @@
-
-<div class='docs-header-section'>
-	<h1>Equipe création/édition</h1>
-</div>
-<div class='center'>
-	<form class="example-form" role="form" (submit)="save()">
-		
-		<mat-form-field class="example-full-width">
-			<mat-label>Name</mat-label>
-			<input matInput placeholder="What is the team name?" [(ngModel)]="team.name" name="name">
-		</mat-form-field>
-
-		<mat-form-field class="example-full-width">
-			<mat-label>Description</mat-label>
-			<input matInput placeholder="Description" [(ngModel)]="team.description" name="description">
-		</mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Save</button>
-        <button mat-raised-button color="secondary" (click)="gotoList()">cancel</button>
-	</form>
-
-	<br/>
-</div>
-<div class="container" >
+<div class="container">
 	<div class='docs-header-section'>
-		<u>Entrainements</u>
+		<h1>Catégorie</h1>
 	</div>
-	<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-		<ng-container matColumnDef="day">
-		  	<th mat-header-cell *matHeaderCellDef> Jour </th>
-		  	<td mat-cell *matCellDef="let element">
-			  <mat-label *ngIf="!isNew(element)">{{element.day}}</mat-label>
-			  <input *ngIf="isNew(element)" matInput placeholder="Jour" [(ngModel)]="element.day" name="element.day">
-			</td>
-		</ng-container>
-	  
-		<ng-container matColumnDef="fromTime">
-			<th mat-header-cell *matHeaderCellDef> Heure début </th>
-			<td mat-cell *matCellDef="let element">
-				<mat-label *ngIf="!isNew(element)">{{element.fromTime}}</mat-label>
-				<input *ngIf="isNew(element)" matInput placeholder="Heure début" [(ngModel)]="element.fromTime" name="element.fromTime">
-			</td>
-		</ng-container>
-	  
-		<ng-container matColumnDef="toTime">
-		  <th mat-header-cell *matHeaderCellDef> Heure fin </th>
-		  <td mat-cell *matCellDef="let element">
-			<mat-label *ngIf="!isNew(element)">{{element.toTime}}</mat-label>
-			<input *ngIf="isNew(element)" matInput placeholder="Heure fin" [(ngModel)]="element.toTime" name="element.toTime">
-		  </td>
-		</ng-container>
 
-		<ng-container matColumnDef="action">
-			<th mat-header-cell *matHeaderCellDef>
-				<button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-				  <mat-icon (click)="addTraining()">plus_one</mat-icon>
-				</button>
-			</th>
-			<td mat-cell *matCellDef="let element; let i = index;">
-			  <button *ngIf="!isNew(element)" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
-				<mat-icon (click)="onDeleteRow(i)">delete</mat-icon>
-			  </button>
-			  <button *ngIf="isNew(element) && isFull(element)" mat-mini-fab color="accent" aria-label="Example icon button with a save icon">
-				<mat-icon (click)="onSaveRow(element)">save_alt</mat-icon>
-			  </button>
-			</td>
-		  </ng-container>
-	  
-		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-	  
-	  </table>
+	<div class='center'>
+		<form class="example-form" role="form" (submit)="save()">
+			<mat-form-field class="example-full-width">
+				<mat-label>Name</mat-label>
+				<input matInput placeholder="What is the team name?" [(ngModel)]="team.name" name="name">
+			</mat-form-field>
+
+			<mat-form-field class="example-full-width">
+				<mat-label>Description</mat-label>
+				<input matInput placeholder="Description" [(ngModel)]="team.description" name="description">
+			</mat-form-field>
+
+			<div class="example-full-width-center">
+				<img class="mat-role" src="assets/ico/player_male_{{isMale()}}.png" (click)="clickGender('MALE')"/>
+				<img class="mat-role" src="assets/ico/player_female_{{!isMale()}}.png" (click)="clickGender('FEMALE')"/>
+			</div>
+			<button mat-raised-button color="primary" type="submit">Save</button>
+			<button mat-raised-button color="secondary" (click)="gotoList()">cancel</button>
+		</form>
+	</div>
+
+	<button  mat-fab color="primary" (click)="addGroup()"><mat-icon>plus_one</mat-icon></button>
+
+	<mat-accordion class="accordion" *ngFor="let team of team.teams">
+		<mat-expansion-panel expanded="true">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+			Groupe {{team.name}}
+			</mat-panel-title>
+			
+		</mat-expansion-panel-header>
+		
+		<mat-card-content class="grid">
+			<mat-label>Liste des entrainements</mat-label>
+			<table #cmp mat-table [dataSource]="team.trainings" class="mat-elevation-z8">
+				<ng-container matColumnDef="day">
+					<th mat-header-cell *matHeaderCellDef> Jour </th>
+					<td mat-cell *matCellDef="let element">
+						<input matInput placeholder="Jour" [(ngModel)]="element.day" name="element.day">
+					</td>
+				</ng-container>
+			  
+				<ng-container matColumnDef="fromTime">
+					<th mat-header-cell *matHeaderCellDef> Heure début </th>
+					<td mat-cell *matCellDef="let element">
+						<input matInput placeholder="Heure début" [(ngModel)]="element.fromTime" name="element.fromTime">
+					</td>
+				</ng-container>
+			  
+				<ng-container matColumnDef="toTime">
+				  <th mat-header-cell *matHeaderCellDef> Heure fin </th>
+				  <td mat-cell *matCellDef="let element">
+					<input matInput placeholder="Heure fin" [(ngModel)]="element.toTime" name="element.toTime">
+				  </td>
+				</ng-container>
+		
+				<ng-container matColumnDef="action">
+					<th mat-header-cell *matHeaderCellDef>
+						<button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+						  <mat-icon (click)="addTraining(team)">plus_one</mat-icon>
+						</button>
+					</th>
+					<td mat-cell *matCellDef="let element; let i = index;">
+					  <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+						<mat-icon (click)="onDeleteRow(i, team)">delete</mat-icon>
+					  </button>
+					  <!--
+					  <button *ngIf="isNew(element) && isFull(element)" mat-mini-fab color="accent" aria-label="Example icon button with a save icon">
+						<mat-icon (click)="onSaveRow(element, team)">save_alt</mat-icon>
+					  </button>
+					  -->
+					</td>
+				  </ng-container>
+			  
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			  
+			  </table>
+		
+		</mat-card-content>
+	</mat-expansion-panel>
+
+    
+  </mat-accordion>
+<!--
+	<div class="containernocenter" *ngFor="let team of team.teams">
+		
+		<mat-divider></mat-divider>
+
+		<mat-label><u>Equipe {{team.name}}</u></mat-label>
+
+		<div class="container" >
+			<table #cmp mat-table [dataSource]="team.trainings" class="mat-elevation-z8">
+				<ng-container matColumnDef="day">
+					  <th mat-header-cell *matHeaderCellDef> Jour </th>
+					  <td mat-cell *matCellDef="let element">
+					  <mat-label *ngIf="!isNew(element)">{{element.day}}</mat-label>
+					  <input *ngIf="isNew(element)" matInput placeholder="Jour" [(ngModel)]="element.day" name="element.day">
+					</td>
+				</ng-container>
+			  
+				<ng-container matColumnDef="fromTime">
+					<th mat-header-cell *matHeaderCellDef> Heure début </th>
+					<td mat-cell *matCellDef="let element">
+						<mat-label *ngIf="!isNew(element)">{{element.fromTime}}</mat-label>
+						<input *ngIf="isNew(element)" matInput placeholder="Heure début" [(ngModel)]="element.fromTime" name="element.fromTime">
+					</td>
+				</ng-container>
+			  
+				<ng-container matColumnDef="toTime">
+				  <th mat-header-cell *matHeaderCellDef> Heure fin </th>
+				  <td mat-cell *matCellDef="let element">
+					<mat-label *ngIf="!isNew(element)">{{element.toTime}}</mat-label>
+					<input *ngIf="isNew(element)" matInput placeholder="Heure fin" [(ngModel)]="element.toTime" name="element.toTime">
+				  </td>
+				</ng-container>
+		
+				<ng-container matColumnDef="action">
+					<th mat-header-cell *matHeaderCellDef>
+						<button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+						  <mat-icon (click)="addTraining(team)">plus_one</mat-icon>
+						</button>
+					</th>
+					<td mat-cell *matCellDef="let element; let i = index;">
+					  <button *ngIf="!isNew(element)" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+						<mat-icon (click)="onDeleteRow(i, team)">delete</mat-icon>
+					  </button>
+					  <button *ngIf="isNew(element) && isFull(element)" mat-mini-fab color="accent" aria-label="Example icon button with a save icon">
+						<mat-icon (click)="onSaveRow(element, team)">save_alt</mat-icon>
+					  </button>
+					</td>
+				  </ng-container>
+			  
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			  
+			  </table>
+		</div>
+	</div>
+-->
 </div>

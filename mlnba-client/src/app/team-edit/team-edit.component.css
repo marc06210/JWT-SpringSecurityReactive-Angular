@@ -8,6 +8,12 @@
     width: 100%;
   }
 
+  .example-full-width-center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   .center {
     display: flex;
     justify-content: center;
@@ -34,7 +40,22 @@
   padding-left: 0px;
   padding-top: 0;
 }
+.containernocenter {
+  max-width: 900px;
+  margin: auto;
+  text-align: left;
+  max-width: 80%;
+  padding-left: 0px;
+  padding-top: 0;
+}
 table.mat-table {
   width: 100%;
   text-align: left;
+}
+mat-label {
+  margin-bottom: 15px;;
+}
+mat-divider {
+  margin-bottom: 15px;
+  margin-top: 15px;
 }

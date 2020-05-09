@@ -69,13 +69,14 @@ public class MlnbaRouter {
 //    @Bean
     public RouterFunction<ServerResponse> routeTeams() {
         return RouterFunctions
-            .route(GET("/team")
-                    .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), teamHandler::list)
-            .andRoute(GET("/team/{id}"), teamHandler::getById)
-            .andRoute(DELETE("/team/{id}"), teamHandler::deleteById)
-            .andRoute(PUT("/team/{id}"), teamHandler::updateTeamById)
-            .andRoute(POST("/team").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeam)
-            .andRoute(POST("/team/{id}/training").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::setTrainings)
+            .route(GET("/team-category")
+                  .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), teamHandler::listTeamCategories)
+            .andRoute(GET("/team-category/{id}"), teamHandler::getTeamCategoryById)
+            .andRoute(POST("/team-category").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeamCategory)
+            .andRoute(DELETE("/team-category/{id}"), teamHandler::deleteCategoryById)
+            .andRoute(PUT("/team-category/{id}"), teamHandler::updateTeamCategoryById)
+//            .andRoute(POST("/team").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeam)
+//            .andRoute(POST("/team/{id}/training").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::setTrainings)
             ;
     }
     

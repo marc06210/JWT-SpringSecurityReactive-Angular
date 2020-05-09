@@ -56,3 +56,18 @@
     background-image: url('/assets/img/icon-team-96.png');
     background-size: cover;
 }
+
+.mat-expansion-panel-header {
+  background-color: #c9c9c9;
+}
+
+.mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 45px;
+}
+
+.header-img {
+  margin-right: 5px;
+  margin-left: 5px;
+}

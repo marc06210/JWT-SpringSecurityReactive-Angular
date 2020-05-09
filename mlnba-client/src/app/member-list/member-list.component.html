@@ -22,7 +22,7 @@
     <ng-container matColumnDef="roles">
       <th mat-header-cell *matHeaderCellDef> Rôles </th>
       <td mat-cell *matCellDef="let element">
-        <img class="mat-role" src="assets/ico/cto_{{hasRole(element, 'role_cto')}}.png"/>
+        <img class="mat-role" src="assets/ico/cto_{{hasRole(element, 'role_cto')}}.png" alt="cto"/>
         <img class="mat-role" src="assets/ico/coach_{{hasRole(element, 'role_coach')}}.png"/>
         <img class="mat-role" src="assets/ico/player_male_{{hasRole(element, 'role_player_male')}}.png"/>
         <img class="mat-role" src="assets/ico/player_female_{{hasRole(element, 'role_player_female')}}.png"/>
@@ -38,14 +38,14 @@
 				</button>
 			</th>
 			<td mat-cell *matCellDef="let element; let i = index;">
-			  <button mat-mini-fab color="warn" aria-label="Supprimer">
-				  <mat-icon (click)="onDeleteRow(element)">delete</mat-icon>
+			  <button mat-mini-fab color="warn" aria-label="Supprimer" (click)="onDeleteRow(element)">
+				  <mat-icon >delete</mat-icon>
 			  </button>
 			  <button mat-mini-fab color="primary" aria-label="Modifier un membre" [routerLink]="['/member-edit', element.id]">
 				  <mat-icon>edit</mat-icon>
 			  </button>
 			</td>
-		  </ng-container>
+		</ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

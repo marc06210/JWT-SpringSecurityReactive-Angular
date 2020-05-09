@@ -23,7 +23,7 @@ export class MemberListComponent implements OnInit {
 
   rolesList: string[] = ["role_admin", "role_player", "role_coach"];
 
-  displayedColumns: string[] = ['username', 'lastname', 'firstname', 'roles', 'action'];
+  displayedColumns: string[] = ['lastname', 'firstname', 'roles', 'action'];
   dataSource;//: MemberDataSource;
   
   constructor(private memberService: MemberService, public dialog: MatDialog) { }

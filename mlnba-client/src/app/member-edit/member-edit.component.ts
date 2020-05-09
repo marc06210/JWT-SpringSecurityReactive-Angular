@@ -12,6 +12,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class MemberEditComponent implements OnInit {
 
+  error: string = null;
   member: Member = new Member();
   sub: Subscription;
   isNew: boolean = true;
@@ -46,9 +47,16 @@ export class MemberEditComponent implements OnInit {
   }
 
   save() {
+    this.error = null;
     this.memberService.save(this.member).subscribe(result => {
       this.gotoList();
-    }, error => console.error(error));
+    }, error => {
+      console.error(error);
+      console.log(error.message);
+      if(error.error.message.includes('duplicate')) {
+        this.error = "Nom d'utilisateur déjà utilisé!";
+      }
+    });
   }
 
   getIcoName(roleName: string) {

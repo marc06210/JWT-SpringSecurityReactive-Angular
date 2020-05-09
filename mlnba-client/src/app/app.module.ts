@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 import {MatSortModule} from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list'
@@ -85,6 +86,7 @@ export class XhrInterceptor implements HttpInterceptor {
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatExpansionModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,

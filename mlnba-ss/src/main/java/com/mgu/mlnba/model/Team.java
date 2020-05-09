@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,16 +14,14 @@ public class Team {
     @Id
     protected String id;
 
+//    @Indexed(unique=true)
     protected String name;
     protected String season;
 
     protected String description;
     
-//    @DBRef
     protected List<Training> trainings = new ArrayList<>();
 
-
-    // @Builder.Default()
     @DBRef
     protected List<Member> members = new ArrayList<>();
 
@@ -73,5 +72,6 @@ public class Team {
     public void setTrainings(List<Training> trainings) {
         this.trainings = trainings;
     }
+
 
 }
