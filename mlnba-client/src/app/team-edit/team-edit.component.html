@@ -41,7 +41,12 @@
 				<ng-container matColumnDef="day">
 					<th mat-header-cell *matHeaderCellDef> Jour </th>
 					<td mat-cell *matCellDef="let element">
-						<input matInput placeholder="Jour" [(ngModel)]="element.day" name="element.day">
+						<mat-select [(ngModel)]="element.day">
+							<mat-option *ngFor="let day of DAYS" [value]="day">
+							  {{day}}
+							</mat-option>
+						  </mat-select>
+						<!--<input matInput placeholder="Jour" [(ngModel)]="element.day" name="element.day">-->
 					</td>
 				</ng-container>
 			  

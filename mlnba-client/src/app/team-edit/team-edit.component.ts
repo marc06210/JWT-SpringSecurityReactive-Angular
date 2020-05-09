@@ -7,6 +7,7 @@ import { Training } from '../shared/team/training';
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-team-edit',
@@ -24,10 +25,13 @@ export class TeamEditComponent implements OnInit {
   displayedColumns: string[] = ['day', 'fromTime', 'toTime', 'action'];
   dataSource: Training[];
 
+  DAYS: string[] = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private teamService: TeamService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private snack: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -106,6 +110,9 @@ export class TeamEditComponent implements OnInit {
         .subscribe(categoryWithId => {
           this.team.id = categoryWithId.id;
           console.log('category created: ' + this.team.id);
+          this.snack.open('Equipe ' + this.team.name + ' enregistrée', null, {
+            duration: 3000
+          });
           /*this.team.teams.forEach( t => {
             this.teamService.saveTeam(t).subscribe( team => {
               t.id = team.id;
