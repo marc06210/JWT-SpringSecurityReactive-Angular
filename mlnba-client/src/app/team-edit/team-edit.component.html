@@ -53,14 +53,18 @@
 				<ng-container matColumnDef="fromTime">
 					<th mat-header-cell *matHeaderCellDef> Heure début </th>
 					<td mat-cell *matCellDef="let element">
-						<input matInput placeholder="Heure début" [(ngModel)]="element.fromTime" name="element.fromTime">
+						<ngx-timepicker-field [(ngModel)]="element.fromTime" [format]="24"  ></ngx-timepicker-field>
 					</td>
 				</ng-container>
 			  
 				<ng-container matColumnDef="toTime">
 				  <th mat-header-cell *matHeaderCellDef> Heure fin </th>
 				  <td mat-cell *matCellDef="let element">
-					<input matInput placeholder="Heure fin" [(ngModel)]="element.toTime" name="element.toTime">
+					  <!--
+					<input placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24"  [(ngModel)]="element.toTime" readonly>
+					<ngx-material-timepicker #fullTime></ngx-material-timepicker>
+					  -->
+					  <ngx-timepicker-field [(ngModel)]="element.toTime" [format]="24"  ></ngx-timepicker-field>
 				  </td>
 				</ng-container>
 		

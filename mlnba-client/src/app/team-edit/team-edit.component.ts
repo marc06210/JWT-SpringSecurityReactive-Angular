@@ -104,7 +104,7 @@ export class TeamEditComponent implements OnInit {
 
   save() {
     //if(this.team.id==null) {
-    //  console.log("create full category");
+     console.log("create full category");
 
       this.teamService.saveCategory(this.team)
         .subscribe(categoryWithId => {
@@ -113,6 +113,7 @@ export class TeamEditComponent implements OnInit {
           this.snack.open('Equipe ' + this.team.name + ' enregistrée', null, {
             duration: 3000
           });
+
           /*this.team.teams.forEach( t => {
             this.teamService.saveTeam(t).subscribe( team => {
               t.id = team.id;
@@ -124,8 +125,7 @@ export class TeamEditComponent implements OnInit {
                 training.temp = false;
               });
             } );
-          });*/
-          
+          });*/ 
         })
 
     //} else {

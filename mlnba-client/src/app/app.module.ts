@@ -35,6 +35,8 @@ import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confir
 import { NewsComponent } from './admin/news/news.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -77,6 +79,7 @@ export class XhrInterceptor implements HttpInterceptor {
     NewsComponent
   ],
   imports: [
+    NgxMaterialTimepickerModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
