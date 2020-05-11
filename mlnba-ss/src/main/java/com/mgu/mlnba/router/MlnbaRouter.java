@@ -95,6 +95,7 @@ public class MlnbaRouter {
                     .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), matchHandler::createMatch)
             .andRoute(DELETE("/match/{id}"), matchHandler::deleteMatchById)
             .andRoute(GET("/match/{id}"), matchHandler::getMatchById)
+            .andRoute(PUT("/match/{id}"), matchHandler::updateMatch)
             ;
     }
     

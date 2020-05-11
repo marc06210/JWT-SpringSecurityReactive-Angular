@@ -6,9 +6,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.mgu.mlnba.model.Match;
-import com.mgu.mlnba.model.Member;
 import com.mgu.mlnba.repository.MatchRepository;
-import com.mgu.mlnba.repository.TeamGroupRepository;
+import com.mgu.mlnba.repository.TeamRepository;
 
 import reactor.core.publisher.Mono;
 
@@ -16,9 +15,9 @@ import reactor.core.publisher.Mono;
 public class MatchHandler {
 
     private final MatchRepository matchRepo;
-    private final TeamGroupRepository teamRepo;
+    private final TeamRepository teamRepo;
 
-    public MatchHandler(MatchRepository matchRepo, TeamGroupRepository teamRepo) {
+    public MatchHandler(MatchRepository matchRepo, TeamRepository teamRepo) {
         this.matchRepo = matchRepo;
         this.teamRepo = teamRepo;
     }
@@ -51,7 +50,26 @@ public class MatchHandler {
                 ;
         return ServerResponse
                 .ok()
-                .body(matchRepo.insert(match).next(), Match.class);
+                .body(matchRepo.insert(match), Match.class);
+    }
+    
+    public Mono<ServerResponse> updateMatch(ServerRequest request) {
+        Mono<Match> match = request.bodyToMono(Match.class)
+                .flatMap(m -> {
+                    Mono<Match> a = teamRepo.findById(m.getLocalTeam().getId()).map(
+                            t -> {
+                                System.out.println("setting the team - " + t);
+                                m.setLocalTeam(t);
+                                return m;
+                            });
+                    
+                    return a;
+                })
+                ;
+        
+        return ServerResponse
+                .ok()
+                .body(matchRepo.saveAll(match).next(), Match.class);
     }
 
     public Mono<ServerResponse> deleteMatchById(ServerRequest request) {

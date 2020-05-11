@@ -9,6 +9,7 @@ import com.mgu.mlnba.model.Team;
 import com.mgu.mlnba.model.TeamGroup;
 import com.mgu.mlnba.repository.TeamGroupRepository;
 import com.mgu.mlnba.repository.TeamRepository;
+import com.mgu.mlnba.utils.Gender;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,16 +29,26 @@ public class TeamHandler {
      public Mono<ServerResponse> listTeams(ServerRequest request) {
     
      return ServerResponse.ok()/*.contentType(MediaType.TEXT_EVENT_STREAM)*/
-             .body(teamRepo.findAll(), Team.class);
+             .body(teamRepo.findAll()
+                     .sort((t1,t2) -> t1.getName().compareTo(t2.getName())), 
+                     Team.class);
      }
 
     public Mono<ServerResponse> listTeamCategories(ServerRequest request) {
         return ServerResponse.ok()/*.contentType(MediaType.TEXT_EVENT_STREAM)*/
-                .body(teamGroupRepo.findAll(), TeamGroup.class);
+                .body(teamGroupRepo
+                        .findAll()
+                        .sort((t1,t2) -> t1.getName().compareTo(t2.getName())),
+                        TeamGroup.class);
     }
 
     public Mono<ServerResponse> getTeamCategoryById(ServerRequest request) {
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(teamGroupRepo.findById(request.pathVariable("id")).switchIfEmpty(Mono.error(new Exception("No category found"))), TeamGroup.class);
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(teamGroupRepo.findById(request.pathVariable("id"))
+                        .switchIfEmpty(Mono.error(new Exception("No category found"))),
+                        TeamGroup.class);
     }
 
     public Mono<ServerResponse> updateTeamCategoryById(ServerRequest request) {
@@ -47,9 +58,11 @@ public class TeamHandler {
                 Flux<Team> teams  = Flux.fromIterable(c.getTeams());
                 
                 Mono<TeamGroup> re = Mono.zip(c1, teams.flatMap(x -> {
-                    if(x.getId()==null)
+                    if(x.getId()==null) {
+                        String teamName = c.getName() + c.getGender() + x.getName();
+                        x.setName(teamName);
                         return teamRepo.insert(x);
-                    else
+                    } else
                         return teamRepo.save(x);
                     })
                 .collectList(), (tg, ts) -> {
@@ -70,9 +83,15 @@ public class TeamHandler {
                     Flux<Team> teams  = Flux.fromIterable(teamGroup.getTeams());
                     return Mono.zip(
                             teamGroup1, 
-                            teams.flatMap(teamRepo::insert).collectList(), 
+                            teams.flatMap(t -> {
+                                String teamName = teamGroup.getName() + teamGroup.getGender() + t.getName();
+                                t.setName(teamName.toUpperCase());
+                                return teamRepo.insert(t);
+                            }).collectList(), 
+                            
                             (tg, ts) -> {
                                 tg.setTeams(ts);
+                                tg.setName(teamGroup.getName().toUpperCase());
                                 return tg;
                             })
                             .map(t -> t);

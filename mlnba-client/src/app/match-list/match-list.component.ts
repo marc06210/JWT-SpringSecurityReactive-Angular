@@ -4,6 +4,10 @@ import { EventService } from '../shared/event/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatchEditComponent } from '../match-edit/match-edit.component';
 import { Team } from '../shared/team/team';
+import { Match } from '../shared/event/event';
+import * as moment from 'moment';
+import { TeamService } from '../shared/team/team.service';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-match-list',
@@ -12,13 +16,16 @@ import { Team } from '../shared/team/team';
 })
 export class MatchListComponent implements OnInit {
 
-  displayedColumns: string[] = ['date', 'match', 'action'];
+  teams :Team[] = [];
+  displayedColumns: string[] = ['date', 'localTeam', 'opponent', 'place', 'action'];
   dataSource: EventDataSource;
 
-  constructor(private eventService: EventService, public dialog: MatDialog) { }
+  constructor(private app: AppService, private eventService: EventService, private teamService: TeamService, public dialog: MatDialog) { }
 
   ngOnInit() {
+    moment.locale('fr');
     this.loadMatches();
+    this.teamService.getAll().subscribe(result => this.teams = result);
   }
 
   loadMatches() {
@@ -30,18 +37,20 @@ export class MatchListComponent implements OnInit {
     console.log('Row clicked: ', row);
   }
 
+  getMatchTime(m : Match) {
+    let d1 = moment(m.date);
+    return d1.format("ll") + " à " + m.time;
+  }
+
+  isAdmin(): boolean {
+    return this.app.isAdmin();
+  }
+
   onAddMatch() {
     console.log("onAddMatch");
-    let t1: Team = new Team();
-    t1.id = '5eb657c215544e7f47af4604';
-    t1.name = 'U11F';
-    let t2: Team = new Team();
-    t2.id = '2';
-    t2.name = 'U15M1';
-
       const dialogRef = this.dialog.open(MatchEditComponent, {
         width: '300px',
-        data: {'teams' : [t1, t2]} 
+        data: {'teams' : this.teams, 'inputMatch': new Team()} 
       });
   
       dialogRef.afterClosed().subscribe(result=> {
@@ -56,7 +65,19 @@ export class MatchListComponent implements OnInit {
     console.log("onDeleteMatch - " + match);
     this.eventService.delete(match.id).subscribe(result => this.loadMatches());
   }
-  onModifyMatch(match) {
+  onModifyMatch(match :Match) {
     console.log("onModifyMatch - " + match);
+
+    const dialogRef = this.dialog.open(MatchEditComponent, {
+      width: '300px',
+      data: {'teams' : this.teams, 'inputMatch': match} 
+    });
+
+    dialogRef.afterClosed().subscribe(result=> {
+      console.log('The dialog was closed: ' + result.localTeam.id);
+      this.eventService.save(result).subscribe( result => {
+        this.loadMatches();
+      });
+    });
   }
 }

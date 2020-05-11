@@ -6,6 +6,7 @@ import { Match } from '../shared/event/event';
 
 export class MatchInputData{
 
+  inputMatch: Match;
   teams: Team[];
 
 }

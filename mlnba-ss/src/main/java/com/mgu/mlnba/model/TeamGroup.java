@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mgu.mlnba.utils.Gender;
 
-@Document("TeamCategory")
+@Document("teamCategory")
 public class TeamGroup {
 
     @Id

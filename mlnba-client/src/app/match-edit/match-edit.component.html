@@ -4,17 +4,18 @@
   <p>Quand? Où?</p>
   <mat-form-field >
     <mat-label>date</mat-label>
-    <input [(ngModel)]="match.date" matInput [matDatepicker]="picker">
+    <input [(ngModel)]="data.inputMatch.date" matInput [matDatepicker]="picker">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <mat-form-field>
-    <mat-label>heure</mat-label>
-    <input matInput [(ngModel)]="match.time">
-  </mat-form-field>
+  <div class="mat-form-field-wrapper ng-tns-c50-2">
+    <div class="mat-form-field-flex ng-tns-c50-2">
+      <ngx-timepicker-field matInput [(ngModel)]="data.inputMatch.time" [format]="24" [controlOnly]="true" ></ngx-timepicker-field>
+    </div>
+  </div>
   <mat-form-field>
     <mat-label>lieu</mat-label>
-    <mat-select [(ngModel)]="match.place">
+    <mat-select [(ngModel)]="data.inputMatch.place">
         <mat-option *ngFor="let place of PLACES" [value]="place">
           {{place}}
         </mat-option>
@@ -23,7 +24,7 @@
   <p>Qui?</p>
   <mat-form-field>
     <mat-label>équipe Mandelieu</mat-label>
-    <mat-select [(ngModel)]="match.localTeam.id">
+    <mat-select [(ngModel)]="data.inputMatch.localTeam.id">
         <mat-option *ngFor="let team of data.teams" [value]="team.id">
           {{team.name}}
         </mat-option>
@@ -31,11 +32,11 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>adversaire</mat-label>
-    <input matInput [(ngModel)]="match.opponent">
+    <input matInput [(ngModel)]="data.inputMatch.opponent">
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">annuler</button>
-  <button mat-button [mat-dialog-close]="match" cdkFocusInitial>Enregistrer</button>
+  <button mat-button [mat-dialog-close]="data.inputMatch" cdkFocusInitial>Enregistrer</button>
 </div>

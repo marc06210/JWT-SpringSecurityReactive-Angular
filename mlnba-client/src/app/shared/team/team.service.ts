@@ -13,8 +13,8 @@ export class TeamService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<any> {
-    return this.http.get('/api/team');
+  getAll(): Observable<Team[]> {
+    return this.http.get<Team[]>('/api/team');
   }
 
   getAllCategories(): Observable<TeamGroup[]> {

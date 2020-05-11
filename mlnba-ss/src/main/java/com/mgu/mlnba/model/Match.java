@@ -13,9 +13,10 @@ public class Match {
     private String date;
     private String time;
     private String opponent;
+    private String place;
     
     @DBRef
-    private TeamGroup localTeam;
+    private Team localTeam;
 
     public String getId() {
         return id;
@@ -49,13 +50,19 @@ public class Match {
         this.opponent = opponent;
     }
 
-    public TeamGroup getLocalTeam() {
+    public Team getLocalTeam() {
         return localTeam;
     }
 
-    public void setLocalTeam(TeamGroup localTeam) {
+    public void setLocalTeam(Team localTeam) {
         this.localTeam = localTeam;
     }
-    
-    
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
 }
