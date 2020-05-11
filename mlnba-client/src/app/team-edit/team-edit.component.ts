@@ -51,7 +51,7 @@ export class TeamEditComponent implements OnInit {
         this.team.gender = 'MALE';
         let t: Team = new Team();
         t.name = "1";
-        t.trainings = [];
+        t.trainings = [new Training()];
         this.team.teams = [t];
       }
     });
@@ -96,6 +96,7 @@ export class TeamEditComponent implements OnInit {
 
   addGroup() {
     let t = new Team();
+    t.trainings = [new Training()];
     let i: number = this.team.teams.length+1;
     t.name = ''+i;
     this.team.teams.push(t);
