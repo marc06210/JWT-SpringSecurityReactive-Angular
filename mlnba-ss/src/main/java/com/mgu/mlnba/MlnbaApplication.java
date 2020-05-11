@@ -87,7 +87,6 @@ public class MlnbaApplication {
         m.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("password"));
 
         roleRepo.findById("role_cto").subscribe(r -> {
-            System.out.println(">>> creating user");
             m.setRoles(Arrays.asList(r));
             memberRepo.save(m).subscribe(r2 -> {
                     System.out.println("done");

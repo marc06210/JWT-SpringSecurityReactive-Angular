@@ -20,13 +20,13 @@ spec:
               - containerPort: 8080
             env: 
               - name: MONGODB_HOST
-                value: mlnba-mango-cluster-ip-service        
+                value: mlnba-mongo-cluster-ip-service        
               - name: MONGODB_BASE
                 value: mlnba
               - name: MONGODB_USER
-                value: mlnba
+                value: mlnbauser
               - name: MONGODB_USER_PASSWORD
                 valueFrom: 
                   secretKeyRef:
                     name: mango-user-password
-                    key:  MANGOUSERPASSWORD
+                    key:  MONGOUSERPASSWORD

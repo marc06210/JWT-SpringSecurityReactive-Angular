@@ -8,6 +8,7 @@ import { TeamListComponent } from './team-list/team-list.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -35,7 +36,15 @@ import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confir
 import { NewsComponent } from './admin/news/news.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatchEditComponent } from './match-edit/match-edit.component';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import {
+  MatMomentDateModule, MAT_MOMENT_DATE_FORMATS
+} from '@angular/material-moment-adapter';
+
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 
 @Injectable()
@@ -76,7 +85,8 @@ export class XhrInterceptor implements HttpInterceptor {
     MatchListComponent,
     MemberEditComponent,
     ConfirmationDialogComponent,
-    NewsComponent
+    NewsComponent,
+    MatchEditComponent
   ],
   imports: [
     NgxMaterialTimepickerModule,
@@ -88,11 +98,14 @@ export class XhrInterceptor implements HttpInterceptor {
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
+    MatMomentDateModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatSortModule,
     MatSnackBarModule,
@@ -104,7 +117,9 @@ export class XhrInterceptor implements HttpInterceptor {
     ReactiveFormsModule,
     CKEditorModule
   ],
-  providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  providers: [AppService, 
+    { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

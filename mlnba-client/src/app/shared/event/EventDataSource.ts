@@ -1,18 +1,18 @@
-import { Event } from './event';
+import { Event, Match } from './event';
 import { DataSource, CollectionViewer } from '@angular/cdk/collections';
 import { EventService } from './event.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export class EventDataSource implements DataSource<Event> {
+export class EventDataSource implements DataSource<Match> {
 
-    private eventsSubject = new BehaviorSubject<Event[]>([]);
+    private eventsSubject = new BehaviorSubject<Match[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
 
     public loading$ = this.loadingSubject.asObservable();
 
     constructor(private service: EventService) {}
 
-    connect(collectionViewer: CollectionViewer): Observable<Event[]> {
+    connect(collectionViewer: CollectionViewer): Observable<Match[]> {
         return this.eventsSubject.asObservable();
     }
 
@@ -23,7 +23,7 @@ export class EventDataSource implements DataSource<Event> {
 
     loadEvents() {
         this.loadingSubject.next(true);
-        this.service.getAll().subscribe(
+        this.service.getAllMatches().subscribe(
                 events => this.eventsSubject.next(events)
             );
     }    

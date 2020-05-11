@@ -1,37 +1,42 @@
 package com.mgu.mlnba.handler;
 
+import java.util.List;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.mgu.mlnba.model.Team;
 import com.mgu.mlnba.model.TeamGroup;
 import com.mgu.mlnba.repository.TeamGroupRepository;
+import com.mgu.mlnba.repository.TeamRepository;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
 public class TeamHandler {
 
     // @Autowired
-    // private final TeamRepository teamRepo;
+    private final TeamRepository teamRepo;
     private final TeamGroupRepository teamGroupRepo;
 
     // @Autowired
     // private final PasswordEncoder encoder;
 
-    public TeamHandler(/*TeamRepository teamRepo,*/ TeamGroupRepository teamGroupRepo) {
-        // this.teamRepo = teamRepo;
+    public TeamHandler(TeamRepository teamRepo, TeamGroupRepository teamGroupRepo) {
+        this.teamRepo = teamRepo;
         this.teamGroupRepo = teamGroupRepo;
         // this.encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    // public Mono<ServerResponse> list(ServerRequest request) {
-    //
-    // //Flux<Person> persons = personRepo.findAll().map(person -> {person.setPassword(null); return person;});
-    // return ServerResponse.ok()/*.contentType(MediaType.TEXT_EVENT_STREAM)*/
-    // .body(teamRepo.findAll(new Sort(Sort.Direction.DESC, "id")), Team.class);
-    // }
+     public Mono<ServerResponse> listTeams(ServerRequest request) {
+    
+     //Flux<Person> persons = personRepo.findAll().map(person -> {person.setPassword(null); return person;});
+     return ServerResponse.ok()/*.contentType(MediaType.TEXT_EVENT_STREAM)*/
+             .body(teamRepo.findAll(), Team.class);
+     }
 
     public Mono<ServerResponse> listTeamCategories(ServerRequest request) {
         // Flux<Person> persons = personRepo.findAll().map(person -> {person.setPassword(null); return person;});
@@ -48,26 +53,47 @@ public class TeamHandler {
         return ServerResponse.ok().body(teamGroupRepo.saveAll(team), TeamGroup.class);
     }
 
+    
+//    Mono<Match> match = request.bodyToMono(Match.class)
+//            .flatMap(m -> {
+//                Mono<Match> a = teamRepo.findById(m.getLocalTeam().getId()).map(
+//                        t -> {
+//                            m.setLocalTeam(t);
+//                            return m;
+//                        });
+//                
+//                return a;
+//            })
+//            ;
+//    return ServerResponse
+//            .ok()
+//            .body(matchRepo.insert(match).next(), Match.class);
     public Mono<ServerResponse> createTeamCategory(ServerRequest request) {
-        /*
-         *  ask question to stackoverflow
-        Mono<TeamGroup> tg = request.bodyToMono(TeamGroup.class);
         
-        Mono<TeamGroup> tgWithMongoTeams = tg.map(cat -> {
-            return Flux.fromIterable(cat.getTeams())
-                .flatMap(t -> teamRepo.save(t))
+         Mono<Object> zz = request.bodyToMono(TeamGroup.class).map( cat -> {
+            
+            return teamRepo.insert(cat.getTeams())
                 .collectList()
-                .map(l -> {
-                    cat.setTeams(l);
-                    return (TeamGroup)cat;
+                .map(teams -> { 
+                    cat.setTeams(teams); 
+                    return cat;
+                })
+                .subscribe();
+         });
+         return ServerResponse.ok().body(zz, Object.class);
+        /*
+        Mono<Object> z = request.bodyToMono(TeamGroup.class).map( cat -> {
+                    return Flux.fromIterable(cat.getTeams())
+                            .flatMap(teamRepo::insert)
+                            .collectList()
+                            .map(l -> {
+                                cat.setTeams(l);
+                                return teamGroupRepo.insert(cat).subscribe();
+                            })
+                            .subscribe()
+                            ;
                 });
-            })
-            .map(TeamGroup.class::cast)
-            ;
-        
-        return ServerResponse.ok().body(teamGroupRepo.insert(tgWithMongoTeams), TeamGroup.class);
-        */
-        return ServerResponse.ok().body(teamGroupRepo.insert(request.bodyToMono(TeamGroup.class)).next(), TeamGroup.class);
+        return ServerResponse.ok().body(z.map(t -> "ok"), String.class);*/
     }
 
     public Mono<ServerResponse> deleteCategoryById(ServerRequest request) {

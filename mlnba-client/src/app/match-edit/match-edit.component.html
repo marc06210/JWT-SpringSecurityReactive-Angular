@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Création match</h1>
+
+<div mat-dialog-content>
+  <p>Quand? Où?</p>
+  <mat-form-field >
+    <mat-label>date</mat-label>
+    <input [(ngModel)]="match.date" matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>heure</mat-label>
+    <input matInput [(ngModel)]="match.time">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>lieu</mat-label>
+    <mat-select [(ngModel)]="match.place">
+        <mat-option *ngFor="let place of PLACES" [value]="place">
+          {{place}}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <p>Qui?</p>
+  <mat-form-field>
+    <mat-label>équipe Mandelieu</mat-label>
+    <mat-select [(ngModel)]="match.localTeam.id">
+        <mat-option *ngFor="let team of data.teams" [value]="team.id">
+          {{team.name}}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>adversaire</mat-label>
+    <input matInput [(ngModel)]="match.opponent">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">annuler</button>
+  <button mat-button [mat-dialog-close]="match" cdkFocusInitial>Enregistrer</button>
+</div>

@@ -19,7 +19,7 @@ public class TeamGroup {
     private String description;
     private Gender gender;
     
-//    @DBRef
+    @DBRef
     private List<Team> teams = new ArrayList<>();
 
     public String getId() {

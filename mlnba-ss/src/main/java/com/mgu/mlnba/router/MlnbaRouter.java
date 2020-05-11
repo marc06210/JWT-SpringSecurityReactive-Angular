@@ -16,6 +16,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.mgu.mlnba.handler.EventHandler;
 import com.mgu.mlnba.handler.GreetingHandler;
+import com.mgu.mlnba.handler.MatchHandler;
 import com.mgu.mlnba.handler.MemberHandler;
 import com.mgu.mlnba.handler.TeamHandler;
 import com.mgu.mlnba.handler.UtilsHandler;
@@ -34,6 +35,9 @@ public class MlnbaRouter {
     
     @Autowired
     private EventHandler eventHandler;
+
+    @Autowired
+    private MatchHandler matchHandler;
     
     @Bean
     public RouterFunction<ServerResponse> routes(GreetingHandler greetingHandler) {
@@ -75,6 +79,9 @@ public class MlnbaRouter {
             .andRoute(POST("/team-category").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeamCategory)
             .andRoute(DELETE("/team-category/{id}"), teamHandler::deleteCategoryById)
             .andRoute(PUT("/team-category/{id}"), teamHandler::updateTeamCategoryById)
+            .andRoute(GET("/team")
+                    .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), teamHandler::listTeams)
+              
 //            .andRoute(POST("/team").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::createTeam)
 //            .andRoute(POST("/team/{id}/training").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), teamHandler::setTrainings)
             ;
@@ -83,7 +90,12 @@ public class MlnbaRouter {
     public RouterFunction<ServerResponse> routeMatches() {
         return RouterFunctions
             .route(GET("/match")
-                    .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), eventHandler::list);
+                    .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), matchHandler::listAll)
+            .andRoute(POST("/match")
+                    .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), matchHandler::createMatch)
+            .andRoute(DELETE("/match/{id}"), matchHandler::deleteMatchById)
+            .andRoute(GET("/match/{id}"), matchHandler::getMatchById)
+            ;
     }
     
 //    @Bean
