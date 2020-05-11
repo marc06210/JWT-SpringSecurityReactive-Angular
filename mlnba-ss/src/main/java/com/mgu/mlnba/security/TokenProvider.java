@@ -31,7 +31,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 /**
  * Class that creates a JWT token containing username as subject and
  * authorities as claims. The token is valid one day.<br/>
- * It also retrieves au {@link Authentication} from a token.
+ * It also retrieves a {@link Authentication} from a token.
  * @author mgu
  *
  */
