@@ -69,7 +69,7 @@ public class TeamHandler {
 //            .ok()
 //            .body(matchRepo.insert(match).next(), Match.class);
     public Mono<ServerResponse> createTeamCategory(ServerRequest request) {
-        
+        /*
          Mono<Object> zz = request.bodyToMono(TeamGroup.class).map( cat -> {
             
             return teamRepo.insert(cat.getTeams())
@@ -81,7 +81,7 @@ public class TeamHandler {
                 .subscribe();
          });
          return ServerResponse.ok().body(zz, Object.class);
-        /*
+        */
         Mono<Object> z = request.bodyToMono(TeamGroup.class).map( cat -> {
                     return Flux.fromIterable(cat.getTeams())
                             .flatMap(teamRepo::insert)
@@ -93,7 +93,7 @@ public class TeamHandler {
                             .subscribe()
                             ;
                 });
-        return ServerResponse.ok().body(z.map(t -> "ok"), String.class);*/
+        return ServerResponse.ok().body(z.map(t -> "ok"), String.class);
     }
 
     public Mono<ServerResponse> deleteCategoryById(ServerRequest request) {
