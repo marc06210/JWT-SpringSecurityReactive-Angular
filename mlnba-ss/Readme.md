@@ -158,7 +158,7 @@ Attention aux noms des repo docker
 
 
 
-kubectl create secret generic mangopassword --from-literal=MANGOPASSWORD=winona77
+kubectl create secret generic mangopassword --from-literal=MANGOPASSWORD=xxx
 
 
 
@@ -166,7 +166,7 @@ kubectl describe ing
 
 
 
-to have nginx working we must install it first because it is not part of gee
+to have nginx working we must install it first because it is not part of gke
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
 
@@ -188,4 +188,15 @@ db
 
 db.new_collection.insert({x:'1'})
 
-db.createUser({ user: "mlnba" , pwd: "mlnba", roles: [{role:"readWrite", db: "mlnba"}]})
+db.createUser({ user: "mlnbauser" , pwd: passwordPrompt(), roles: [{role:"readWrite", db: "mlnba"}]})
+
+
+
+
+
+Appli Angular
+
+le style pour la timerpicker est dans le css racine
+
+
+
