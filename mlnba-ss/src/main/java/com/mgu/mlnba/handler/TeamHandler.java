@@ -1,7 +1,5 @@
 package com.mgu.mlnba.handler;
 
-import java.util.List;
-
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -22,24 +20,18 @@ public class TeamHandler {
     private final TeamRepository teamRepo;
     private final TeamGroupRepository teamGroupRepo;
 
-    // @Autowired
-    // private final PasswordEncoder encoder;
-
     public TeamHandler(TeamRepository teamRepo, TeamGroupRepository teamGroupRepo) {
         this.teamRepo = teamRepo;
         this.teamGroupRepo = teamGroupRepo;
-        // this.encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
      public Mono<ServerResponse> listTeams(ServerRequest request) {
     
-     //Flux<Person> persons = personRepo.findAll().map(person -> {person.setPassword(null); return person;});
      return ServerResponse.ok()/*.contentType(MediaType.TEXT_EVENT_STREAM)*/
              .body(teamRepo.findAll(), Team.class);
      }
 
     public Mono<ServerResponse> listTeamCategories(ServerRequest request) {
-        // Flux<Person> persons = personRepo.findAll().map(person -> {person.setPassword(null); return person;});
         return ServerResponse.ok()/*.contentType(MediaType.TEXT_EVENT_STREAM)*/
                 .body(teamGroupRepo.findAll(), TeamGroup.class);
     }
@@ -49,55 +41,61 @@ public class TeamHandler {
     }
 
     public Mono<ServerResponse> updateTeamCategoryById(ServerRequest request) {
-        Mono<TeamGroup> team = request.bodyToMono(TeamGroup.class);
-        return ServerResponse.ok().body(teamGroupRepo.saveAll(team), TeamGroup.class);
+        Mono<TeamGroup> a = request.bodyToMono(TeamGroup.class)
+            .map(c -> {
+                Mono<TeamGroup> c1 = Mono.just(c);
+                Flux<Team> teams  = Flux.fromIterable(c.getTeams());
+                
+                Mono<TeamGroup> re = Mono.zip(c1, teams.flatMap(x -> {
+                    if(x.getId()==null)
+                        return teamRepo.insert(x);
+                    else
+                        return teamRepo.save(x);
+                    })
+                .collectList(), (tg, ts) -> {
+                    tg.setTeams(ts);
+                    return tg;}).map(t -> t);
+              return re;
+            })
+            .flatMap(t -> t)
+            .map(t -> teamGroupRepo.save(t))
+            .flatMap(t -> t);
+        return ServerResponse.ok().body(a, TeamGroup.class);
     }
 
-    
-//    Mono<Match> match = request.bodyToMono(Match.class)
-//            .flatMap(m -> {
-//                Mono<Match> a = teamRepo.findById(m.getLocalTeam().getId()).map(
-//                        t -> {
-//                            m.setLocalTeam(t);
-//                            return m;
-//                        });
-//                
-//                return a;
-//            })
-//            ;
-//    return ServerResponse
-//            .ok()
-//            .body(matchRepo.insert(match).next(), Match.class);
     public Mono<ServerResponse> createTeamCategory(ServerRequest request) {
-        /*
-         Mono<Object> zz = request.bodyToMono(TeamGroup.class).map( cat -> {
-            
-            return teamRepo.insert(cat.getTeams())
-                .collectList()
-                .map(teams -> { 
-                    cat.setTeams(teams); 
-                    return cat;
-                })
-                .subscribe();
-         });
-         return ServerResponse.ok().body(zz, Object.class);
-        */
-        Mono<Object> z = request.bodyToMono(TeamGroup.class).map( cat -> {
-                    return Flux.fromIterable(cat.getTeams())
-                            .flatMap(teamRepo::insert)
-                            .collectList()
-                            .map(l -> {
-                                cat.setTeams(l);
-                                return teamGroupRepo.insert(cat).subscribe();
+        Mono<TeamGroup> insertedTeamGroup = request.bodyToMono(TeamGroup.class)
+                .map(teamGroup -> {
+                    Mono<TeamGroup> teamGroup1 = Mono.just(teamGroup);
+                    Flux<Team> teams  = Flux.fromIterable(teamGroup.getTeams());
+                    return Mono.zip(
+                            teamGroup1, 
+                            teams.flatMap(teamRepo::insert).collectList(), 
+                            (tg, ts) -> {
+                                tg.setTeams(ts);
+                                return tg;
                             })
-                            .subscribe()
-                            ;
-                });
-        return ServerResponse.ok().body(z.map(t -> "ok"), String.class);
+                            .map(t -> t);
+                })
+                .flatMap(t -> t)
+                .map(teamGroupRepo::insert)
+                .flatMap(t -> t);
+            return ServerResponse.ok().body(insertedTeamGroup, TeamGroup.class);
     }
 
     public Mono<ServerResponse> deleteCategoryById(ServerRequest request) {
-        Mono<Void> response = teamGroupRepo.deleteById(request.pathVariable("id"));
+        Mono<Void> response = teamGroupRepo.findById(request.pathVariable("id"))
+                .map(tg -> {
+                    Mono<TeamGroup> me = Mono.just(tg);
+                    Flux<Team> teams = Flux.fromIterable(tg.getTeams());
+                    return Mono.zip(
+                                me, 
+                                teams.flatMap(teamRepo::delete).collectList(),
+                                (cat, deletedTeams) -> teamGroupRepo.delete(cat))
+                            .flatMap(t -> t);
+                })
+                .flatMap(t -> t);
+                
         return ServerResponse.accepted().build(response);
     }
 
