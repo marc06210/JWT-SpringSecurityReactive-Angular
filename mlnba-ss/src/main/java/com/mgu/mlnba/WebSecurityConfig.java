@@ -89,7 +89,7 @@ public class WebSecurityConfig {
         authenticationWebFilter.setServerAuthenticationConverter(new ServerTokenAuthenticationConverter(tokenProvider));
         NegatedServerWebExchangeMatcher negateWhiteList = new NegatedServerWebExchangeMatcher(ServerWebExchangeMatchers.pathMatchers(permittedUrl));
 //        OrServerWebExchangeMatcher orMatcher = new OrServerWebExchangeMatcher(Arrays.asList(negateWhiteList, new JWTHeadersExchangeMatcher()));
-        authenticationWebFilter.setRequiresAuthenticationMatcher(negateWhiteList);
+//        authenticationWebFilter.setRequiresAuthenticationMatcher(negateWhiteList);
         authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
         authenticationWebFilter.setSecurityContextRepository(NoOpServerSecurityContextRepository.getInstance());
         return authenticationWebFilter;
