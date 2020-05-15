@@ -19,7 +19,6 @@ import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
-import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 
@@ -60,7 +59,7 @@ public class WebSecurityConfig {
             .and()
                 .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
                 .addFilterAt(new AuthorizationModifierFilter(),SecurityWebFiltersOrder.AUTHENTICATION) // this to avoid the popup
-//                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
             ;
         http.httpBasic().disable()
             .formLogin().disable()
@@ -92,7 +91,7 @@ public class WebSecurityConfig {
 //        OrServerWebExchangeMatcher orMatcher = new OrServerWebExchangeMatcher(Arrays.asList(negateWhiteList, new JWTHeadersExchangeMatcher()));
         authenticationWebFilter.setRequiresAuthenticationMatcher(negateWhiteList);
         authenticationWebFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
-        authenticationWebFilter.setSecurityContextRepository(new WebSessionServerSecurityContextRepository());
+        authenticationWebFilter.setSecurityContextRepository(NoOpServerSecurityContextRepository.getInstance());
         return authenticationWebFilter;
     }
     
