@@ -41,6 +41,9 @@ export class MatchEditComponent {
 
   constructor(public dialogRef: MatDialogRef<MatchEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: MatchInputData) {
+      if(data.inputMatch.localTeam==null) {
+        data.inputMatch.localTeam = new Team();
+      }
   }
 
   save() {

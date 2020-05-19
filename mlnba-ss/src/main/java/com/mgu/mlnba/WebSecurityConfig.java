@@ -63,22 +63,13 @@ public class WebSecurityConfig {
             ;
         http.httpBasic().disable()
             .formLogin().disable()
-            .csrf().disable()
-            .logout().disable();
-
-        return http.build();
- 
-
+            .csrf().disable() // disabled because stateless
+            .logout().disable()
+            ;
         
+        return http.build();
     }
     
-    /*
-    private ServerCsrfTokenRepository csrfTokenRepository() {
-        WebSessionServerCsrfTokenRepository repository = new WebSessionServerCsrfTokenRepository();
-        repository.setHeaderName("XSRF-TOKEN");
-        return repository;
-    }
-    */
     @Bean
     public PasswordEncoder encoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

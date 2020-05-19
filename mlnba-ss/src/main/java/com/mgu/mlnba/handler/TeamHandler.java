@@ -1,7 +1,12 @@
 package com.mgu.mlnba.handler;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
@@ -9,10 +14,10 @@ import com.mgu.mlnba.model.Team;
 import com.mgu.mlnba.model.TeamGroup;
 import com.mgu.mlnba.repository.TeamGroupRepository;
 import com.mgu.mlnba.repository.TeamRepository;
-import com.mgu.mlnba.utils.Gender;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuples;
 
 @Component
 public class TeamHandler {
@@ -77,29 +82,24 @@ public class TeamHandler {
     }
 
     public Mono<ServerResponse> createTeamCategory(ServerRequest request) {
-        Mono<TeamGroup> insertedTeamGroup = request.bodyToMono(TeamGroup.class)
-                .map(teamGroup -> {
-                    Mono<TeamGroup> teamGroup1 = Mono.just(teamGroup);
-                    Flux<Team> teams  = Flux.fromIterable(teamGroup.getTeams());
-                    return Mono.zip(
-                            teamGroup1, 
-                            teams.flatMap(t -> {
-                                String teamName = teamGroup.getName() + teamGroup.getGender() + t.getName();
-                                t.setName(teamName.toUpperCase());
-                                return teamRepo.insert(t);
-                            }).collectList(), 
-                            
-                            (tg, ts) -> {
-                                tg.setTeams(ts);
-                                tg.setName(teamGroup.getName().toUpperCase());
-                                return tg;
-                            })
-                            .map(t -> t);
-                })
-                .flatMap(t -> t)
-                .map(teamGroupRepo::insert)
-                .flatMap(t -> t);
-            return ServerResponse.ok().body(insertedTeamGroup, TeamGroup.class);
+        return ServerResponse.ok().body(request.bodyToMono(TeamGroup.class)
+                .map(group -> {
+                    final List<Team> teams = group.getTeams().stream().map(t -> {
+                        String teamName = group.getName() + group.getGender() + t.getName();
+                        t.setName(teamName.toUpperCase());
+                        return t;
+                    }).collect(Collectors.toList());
+                    return Tuples.of(group, teams);
+                }).flatMap(tuple -> teamRepo.insert(tuple.getT2()).collectList().map(teams -> {
+                    tuple.getT1().setTeams(teams);
+                    return tuple.getT1();
+                })).map(group -> {
+                    final String groupName = group.getName().toUpperCase();
+                    group.setName(groupName);
+                    return group;
+                }).flatMap(teamGroupRepo::insert)
+        , TeamGroup.class)
+        .onErrorResume(e -> Mono.error(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR)));
     }
 
     public Mono<ServerResponse> deleteCategoryById(ServerRequest request) {
