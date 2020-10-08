@@ -14,3 +14,9 @@ export class Match {
   localTeam: Team = new Team();
   opponent: string;
 }
+
+export class News {
+  id: string;
+  starred: string;
+  content: string;
+}

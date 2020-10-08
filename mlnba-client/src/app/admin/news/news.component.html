@@ -6,3 +6,26 @@
 
 <ckeditor [editor]="Editor" [(ngModel)]="model.editorData"></ckeditor>
 
+
+<!--
+<div class="container">
+    <mat-card class="example-card-two" *ngFor="let news of newsList">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{news.id}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div [innerHTML]="news.content"></div>
+        </mat-card-content>
+    </mat-card>
+</div>
+-->
+<mat-grid-list [cols]="breakpoint" rowHeight="4:5" (window:resize)="onResize($event)" >
+    <mat-grid-tile *ngFor="let news of newsList">
+        <mat-card>
+            <mat-card-content>
+                <div [innerHTML]="news.content"></div>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>

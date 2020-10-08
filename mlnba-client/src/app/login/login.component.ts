@@ -16,7 +16,7 @@ export class LoginComponent {
   credentials = {username: '', password: ''};
   error=null;
 
-  constructor(private app: AppService, private memberService: MemberService,private http: HttpClient, private router: Router,
+  constructor(private app: AppService, private memberService: MemberService, private http: HttpClient, private router: Router,
     private snack: MatSnackBar) {
   }
 

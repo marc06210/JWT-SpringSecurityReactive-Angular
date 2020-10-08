@@ -18,6 +18,7 @@ import com.mgu.mlnba.handler.EventHandler;
 import com.mgu.mlnba.handler.GreetingHandler;
 import com.mgu.mlnba.handler.MatchHandler;
 import com.mgu.mlnba.handler.MemberHandler;
+import com.mgu.mlnba.handler.NewsHandler;
 import com.mgu.mlnba.handler.TeamHandler;
 import com.mgu.mlnba.handler.UtilsHandler;
 
@@ -34,7 +35,7 @@ public class MlnbaRouter {
     private UtilsHandler utilsHandler;
     
     @Autowired
-    private EventHandler eventHandler;
+    private NewsHandler newsHandler;
 
     @Autowired
     private MatchHandler matchHandler;
@@ -46,6 +47,7 @@ public class MlnbaRouter {
                 .andNest(RequestPredicates.path("/api"), routeTeams())
                 .andNest(RequestPredicates.path("/api"), routeUtils())
                 .andNest(RequestPredicates.path("/api"), routeMatches())
+                .andNest(RequestPredicates.path("/api"), routeNews())
                 ;
     }
     
@@ -96,6 +98,18 @@ public class MlnbaRouter {
             .andRoute(DELETE("/match/{id}"), matchHandler::deleteMatchById)
             .andRoute(GET("/match/{id}"), matchHandler::getMatchById)
             .andRoute(PUT("/match/{id}"), matchHandler::updateMatch)
+            ;
+    }
+    
+    public RouterFunction<ServerResponse> routeNews() {
+        return RouterFunctions
+            .route(GET("/news")
+                    .and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)), newsHandler::listAll)
+            .andRoute(POST("/news")
+                    .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), newsHandler::create)
+//            .andRoute(DELETE("/match/{id}"), matchHandler::deleteMatchById)
+//            .andRoute(GET("/match/{id}"), matchHandler::getMatchById)
+//            .andRoute(PUT("/match/{id}"), matchHandler::updateMatch)
             ;
     }
     

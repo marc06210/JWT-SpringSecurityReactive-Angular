@@ -40,7 +40,7 @@ public class WebSecurityConfig {
     
     @Autowired
     ReactiveUserDetailsService reactiveUserDetailsService;
-    private static String[] permittedUrl = new String[]{ "/", "/api/login", "/logout", "/api/team", "/api/match", "/api/team-category" };
+    private static String[] permittedUrl = new String[]{ "/", "/api/login", "/logout", "/api/team", "/api/match", "/api/team-category", "/api/news" };
     
     // TODO: logout sur stateless, TokenRepository ?
     
